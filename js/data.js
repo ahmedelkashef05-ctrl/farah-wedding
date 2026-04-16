@@ -310,8 +310,7 @@ const VENDORS = [
     reviewList: [
       { name: "Heba Qasim", initial: "ح", stars: 5, date: "Jan 2026", text: "My gown was everything I dreamed of. They added embroidery from my village's tatreez pattern to the hem. I felt like I was carrying Palestine with me." }
     ]
-  }
-];
+  },
 
   // ─── DFW Real Vendors ───
   {
@@ -548,6 +547,85 @@ const VENDORS = [
       { name: "Lina Khalil", initial: "ل", stars: 4, date: "Sep 2025", text: "Great halal Mediterranean catering for our walima. The kufta kabob and hummus were crowd favorites. Reliable and delicious." }
     ]
   },
+  {
+    id: 22,
+    name: "Afrah Mediterranean Restaurant",
+    nameAr: "مطعم أفرح المتوسطي",
+    category: "Catering",
+    city: "Richardson, TX",
+    price: 40,
+    priceUnit: "guest",
+    rating: 4.8,
+    reviews: 210,
+    tags: ["Lebanese Cuisine", "Banquet Hall", "Baklava & Sweets", "Since 2002"],
+    badge: "Richardson Icon",
+    badgeType: "gold",
+    emoji: "🥐",
+    gradient: "linear-gradient(135deg,#c9a84c22,#8b1a1a11)",
+    phone: "(972) 234-9898",
+    email: "",
+    instagram: "@afrah_restaurant",
+    website: "afrah.com",
+    about: "Afrah Mediterranean Restaurant & Pastries has been a cornerstone of Richardson's Arab community since 2002 — started as a pastry shop and grew into a beloved full restaurant. Renowned for their stunning Arabic sweets (baklava, kunafeh, homemade gelato) and private banquet packages for 25–50 guests. Located at 318 E Main St, the heart of Richardson's Arab corridor. Featured in Dallas Morning News and D Magazine.",
+    services: ["Private Banquet (25–50 guests, from $40/person)", "Full Wedding Catering", "Kunafeh & Baklava Stations", "Homemade Gelato Bar", "Arabic Sweets Platters", "Mezze & Appetizers", "Mediterranean Entrées", "Halal Certified"],
+    reviewList: [
+      { name: "Nadia Khalil", initial: "ن", stars: 5, date: "Feb 2026", text: "Afrah catered our walima and it was perfect. The baklava tower was a showstopper and the kunafeh had guests fighting over the last piece. A Richardson institution for a reason." },
+      { name: "Hani Barakat", initial: "ح", stars: 5, date: "Nov 2025", text: "We used the private banquet room for our engagement party — 45 guests. The staff were incredible, the food was fresh and authentic, and the whole setup was beautiful." }
+    ]
+  },
+  {
+    id: 23,
+    name: "Fadia's Deli & Bakery",
+    nameAr: "مخبز فاديا",
+    category: "Sweets",
+    city: "Plano, TX",
+    price: 0,
+    priceUnit: "order",
+    rating: 4.7,
+    reviews: 143,
+    tags: ["Baklava", "Knafeh", "Maamoul", "Fresh Flatbread"],
+    badge: "Arab-Owned",
+    badgeType: "crimson",
+    emoji: "🧆",
+    gradient: "linear-gradient(135deg,#007a3d11,#c9a84c22)",
+    phone: "(972) 918-9998",
+    email: "",
+    instagram: "@fadias.bakery",
+    website: "fadias.com",
+    about: "Fadia's Deli & Bakery is a treasured Plano institution serving DFW's Arab community with authentic Palestinian and Mediterranean baked goods. Famous for handmade baklava, maamoul, knafeh, fresh flatbread, kibbeh, and mezze. A go-to source for wedding sweets trays and pre-wedding celebration catering. Located at 910 W Parker Rd, Plano — open Mon–Fri 9am–7pm, Sat 9am–5pm.",
+    services: ["Baklava & Arabic Sweets Trays", "Maamoul (Date & Walnut)", "Knafeh", "Fresh Handmade Flatbread", "Wedding Sweets Platters", "Hummus, Tabouli & Mezze", "Kibbeh & Falafel", "Custom Catering Orders"],
+    reviewList: [
+      { name: "Rima Haddad", initial: "ر", stars: 5, date: "Jan 2026", text: "We ordered custom sweets trays from Fadia's for our wedding — the maamoul and baklava were better than anything I've had outside of Palestine. The whole family was impressed." },
+      { name: "Yousef Salem", initial: "ي", stars: 5, date: "Oct 2025", text: "This place is a hidden gem in Plano. The knafeh is incredible and the fresh flatbread is pillowy perfection. Ordered a full sweets spread for our engagement party and got so many compliments." }
+    ]
+  },
+  {
+    id: 24,
+    name: "Crew7 Photography",
+    nameAr: "كرو سيفن للتصوير",
+    category: "Photography",
+    city: "Dallas, TX",
+    price: 1175,
+    priceUnit: "package",
+    rating: 4.9,
+    reviews: 88,
+    tags: ["Arabic-Speaking", "Zaffa & Dabke", "8K Multi-Camera", "Nationwide"],
+    badge: "Arab Wedding Specialist",
+    badgeType: "gold",
+    emoji: "🎬",
+    gradient: "linear-gradient(135deg,#1a1a1a22,#c9a84c22)",
+    phone: "(214) 972-2798",
+    email: "sales@crew7photography.com",
+    instagram: "@crew7photography",
+    website: "crew7photography.com",
+    about: "Crew7 Photography is DFW's premier Arab and multicultural wedding photography team. Specializing in Arab, Palestinian, and Muslim weddings, their multilingual staff includes Arabic-speaking photographers who deeply understand cultural ceremony traditions. Known for cinematic 8K multi-camera setups, zaffa procession coverage, and capturing dabke with the energy it deserves. Serving DFW and available nationwide.",
+    services: ["Full Wedding Photography", "Cinematic Wedding Videography", "Arabic-Speaking Photographer", "Zaffa Procession Coverage", "Dabke & Cultural Moments", "Engagement Sessions", "8K Multi-Camera Setup", "DFW & Nationwide Travel"],
+    reviewList: [
+      { name: "Lara Mansour", initial: "ل", stars: 5, date: "Mar 2026", text: "Crew7 captured our entire zaffa and dabke with such energy and detail. The Arabic-speaking photographer made our family so comfortable. The 8K video is breathtaking." },
+      { name: "Kareem Abu-Khalil", initial: "ك", stars: 5, date: "Dec 2025", text: "We needed a team that understood Palestinian wedding traditions and Crew7 delivered beyond expectations. They knew exactly when to shoot, who to focus on, and how to preserve every moment." }
+    ]
+  }
+];
 
 const CHECKLIST_ITEMS = [
   { id: "c1",  section: "12+ Months Before",  text: "Set your wedding date",             done: false },

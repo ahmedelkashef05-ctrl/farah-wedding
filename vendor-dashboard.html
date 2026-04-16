@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Vendor Dashboard — Farah</title>
+  <link rel="stylesheet" href="css/main.css" />
+  <style>
+    .dash-bg { background: var(--cream); min-height: calc(100vh - 68px); }
+    .profile-banner { background: linear-gradient(135deg, var(--crimson), var(--red-dark)); padding: 2rem; border-radius: var(--r-md); margin-bottom: 1.8rem; position: relative; overflow: hidden; color: #fff; display: flex; align-items: center; gap: 1.4rem; }
+    .profile-banner::before { content: ''; position: absolute; inset: 0; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60'%3E%3Cpolygon points='30,2 58,30 30,58 2,30' fill='none' stroke='rgba(255,255,255,0.07)' stroke-width='1.5'/%3E%3C/svg%3E"); background-size: 60px; }
+    .profile-avatar { width: 70px; height: 70px; border-radius: 50%; background: var(--gold); display: flex; align-items: center; justify-content: center; font-size: 2rem; font-weight: 700; color: var(--black); position: relative; z-index: 1; font-family: 'Cinzel Decorative', serif; flex-shrink: 0; }
+    .profile-info { position: relative; z-index: 1; flex: 1; }
+    .profile-name { font-family: 'Playfair Display', serif; font-size: 1.5rem; font-weight: 600; }
+    .profile-meta { font-size: 0.82rem; color: rgba(255,255,255,0.72); margin-top: 4px; }
+    .profile-badge { background: var(--gold); color: var(--black); font-size: 0.72rem; font-weight: 700; padding: 3px 10px; border-radius: 20px; display: inline-block; margin-top: 0.5rem; }
+    .profile-complete { position: relative; z-index: 1; text-align: right; }
+    .profile-complete-pct { font-family: 'Cinzel Decorative', serif; font-size: 2rem; color: var(--gold-lt); }
+    .profile-complete-lbl { font-size: 0.72rem; color: rgba(255,255,255,0.65); letter-spacing: 0.1em; text-transform: uppercase; }
+    .dash-section { background: #fff; border: 1px solid var(--border); border-radius: var(--r-md); margin-bottom: 1.4rem; overflow: hidden; }
+    .dash-section-header { padding: 1rem 1.4rem; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; }
+    .dash-section-header h3 { font-family: 'Playfair Display', serif; font-size: 1.05rem; display: flex; align-items: center; gap: 8px; }
+    .dash-section-body { padding: 1.2rem 1.4rem; }
+    .inq-row { display: flex; align-items: flex-start; gap: 12px; padding: 0.9rem 0; border-bottom: 1px solid rgba(212,184,150,0.4); }
+    .inq-row:last-child { border-bottom: none; }
+    .inq-avatar { width: 40px; height: 40px; border-radius: 50%; background: linear-gradient(135deg, var(--crimson), var(--gold)); display: flex; align-items: center; justify-content: center; color: #fff; font-weight: 700; font-size: 1rem; flex-shrink: 0; }
+    .inq-info { flex: 1; }
+    .inq-sender { font-weight: 700; font-size: 0.88rem; }
+    .inq-msg-text { font-size: 0.84rem; color: var(--muted); margin-top: 3px; line-height: 1.6; }
+    .inq-date { font-size: 0.72rem; color: var(--muted); margin-top: 4px; }
+    .inq-actions { display: flex; gap: 0.5rem; flex-shrink: 0; }
+    .tip-card { background: rgba(201,168,76,0.08); border: 1px solid rgba(201,168,76,0.25); border-radius: var(--r-sm); padding: 1rem 1.1rem; display: flex; gap: 10px; align-items: flex-start; margin-bottom: 0.7rem; }
+    .tip-icon { font-size: 1.2rem; flex-shrink: 0; }
+    .tip-text { font-size: 0.85rem; color: var(--text); line-height: 1.6; }
+    .tip-text strong { color: var(--crimson); }
+    .profile-field { display: flex; align-items: center; gap: 10px; padding: 0.75rem 0; border-bottom: 1px solid rgba(212,184,150,0.4); }
+    .profile-field:last-child { border-bottom: none; }
+    .profile-field-label { font-size: 0.78rem; font-weight: 700; color: var(--muted); width: 120px; flex-shrink: 0; }
+    .profile-field-value { font-size: 0.88rem; color: var(--text); flex: 1; }
+    .profile-field-value input { width: 100%; border: 1.5px solid var(--border); border-radius: var(--r-sm); padding: 0.4rem 0.8rem; font-size: 0.85rem; outline: none; font-family: 'Inter', sans-serif; }
+    .profile-field-value input:focus { border-color: var(--crimson); }
+  </style>
+</head>
+<body>
+<div class="tatreez-bg"></div>
+<div class="page-wrap">
+
+  <div id="nav-root"></div>
+
+  <div class="dash-bg">
+    <div class="page-header" style="padding:2rem">
+      <div class="page-header-inner">
+        <h1>Vendor Dashboard</h1>
+        <p>Manage your Farah listing and respond to inquiries</p>
+      </div>
+    </div>
+    <div class="tatreez-divider"></div>
+
+    <div class="dashboard-layout">
+
+      <!-- SIDEBAR -->
+      <aside>
+        <div class="card" style="overflow:visible">
+          <div class="card-body" style="padding:1.2rem">
+            <div id="vendor-avatar" style="width:56px;height:56px;border-radius:50%;background:linear-gradient(135deg,var(--crimson),var(--gold));display:flex;align-items:center;justify-content:center;color:#fff;font-size:1.4rem;font-weight:700;margin:0 auto 0.8rem;font-family:'Cinzel Decorative',serif"></div>
+            <div id="vendor-name" style="text-align:center;font-weight:700;font-size:0.92rem"></div>
+            <div style="text-align:center;font-size:0.72rem;color:var(--muted);margin-top:3px">🏪 Vendor Account</div>
+          </div>
+          <div style="border-top:1px solid var(--border);padding:0.6rem">
+            <button class="dash-nav-item active" onclick="showPanel('overview',this)"><span class="icon">📊</span> Overview</button>
+            <button class="dash-nav-item" onclick="showPanel('inquiries',this)"><span class="icon">📩</span> Inquiries <span id="inq-badge" style="display:none;background:var(--crimson);color:#fff;font-size:0.65rem;padding:2px 7px;border-radius:20px;margin-left:auto"></span></button>
+            <button class="dash-nav-item" onclick="showPanel('profile',this)"><span class="icon">✏️</span> Edit Profile</button>
+            <button class="dash-nav-item" onclick="showPanel('tips',this)"><span class="icon">💡</span> Growth Tips</button>
+            <div style="height:1px;background:var(--border);margin:0.4rem 0.5rem"></div>
+            <button class="dash-nav-item" onclick="window.location='vendors.html'"><span class="icon">👁️</span> View as Guest</button>
+            <button class="dash-nav-item" style="color:var(--crimson)" onclick="Auth.logout()"><span class="icon">↪</span> Sign Out</button>
+          </div>
+        </div>
+      </aside>
+
+      <!-- MAIN -->
+      <main class="dash-content">
+
+        <!-- OVERVIEW -->
+        <div class="dash-panel active" id="panel-overview">
+
+          <div class="profile-banner">
+            <div class="profile-avatar" id="pb-avatar"></div>
+            <div class="profile-info">
+              <div class="profile-name" id="pb-name"></div>
+              <div class="profile-meta">🏪 Vendor Account · Joined <span id="pb-joined"></span></div>
+              <div class="profile-badge">Verified Vendor ✦</div>
+            </div>
+            <div class="profile-complete">
+              <div class="profile-complete-pct">75%</div>
+              <div class="profile-complete-lbl">Profile Complete</div>
+            </div>
+          </div>
+
+          <!-- Stats -->
+          <div class="stat-cards">
+            <div class="stat-card"><div class="stat-card-icon">👁️</div><div class="stat-card-value">—</div><div class="stat-card-label">Profile Views</div></div>
+            <div class="stat-card"><div class="stat-card-icon">📩</div><div class="stat-card-value" id="stat-inq-count">0</div><div class="stat-card-label">Inquiries</div></div>
+            <div class="stat-card"><div class="stat-card-icon">❤️</div><div class="stat-card-value">—</div><div class="stat-card-label">Wishlisted</div></div>
+            <div class="stat-card"><div class="stat-card-icon">⭐</div><div class="stat-card-value">—</div><div class="stat-card-label">Avg Rating</div></div>
+          </div>
+
+          <!-- Recent Inquiries Preview -->
+          <div class="dash-section">
+            <div class="dash-section-header">
+              <h3>📩 Recent Inquiries</h3>
+              <button class="btn btn-ghost btn-sm" onclick="showPanel('inquiries',null)">View All</button>
+            </div>
+            <div class="dash-section-body" id="recent-inq-body"></div>
+          </div>
+
+          <!-- Profile Completeness Tips -->
+          <div class="dash-section">
+            <div class="dash-section-header"><h3>✅ Profile Checklist</h3></div>
+            <div class="dash-section-body">
+              <div id="profile-checklist-items"></div>
+              <div style="margin-top:0.8rem">
+                <div class="progress-bar"><div class="progress-fill" style="width:75%"></div></div>
+                <div style="font-size:0.78rem;color:var(--muted);margin-top:0.4rem">75% complete — complete your profile to get more bookings</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- INQUIRIES -->
+        <div class="dash-panel" id="panel-inquiries">
+          <div class="dash-panel-header"><h2>All Inquiries</h2></div>
+          <div class="dash-section">
+            <div class="dash-section-body" id="all-inq-body"></div>
+          </div>
+        </div>
+
+        <!-- PROFILE EDIT -->
+        <div class="dash-panel" id="panel-profile">
+          <div class="dash-panel-header"><h2>Edit Your Profile</h2></div>
+          <div class="dash-section">
+            <div class="dash-section-header"><h3>📋 Business Information</h3></div>
+            <div class="dash-section-body">
+              <div class="profile-field"><span class="profile-field-label">Business Name</span><span class="profile-field-value"><input type="text" id="pf-name" /></span></div>
+              <div class="profile-field"><span class="profile-field-label">Category</span><span class="profile-field-value"><input type="text" id="pf-cat" /></span></div>
+              <div class="profile-field"><span class="profile-field-label">City</span><span class="profile-field-value"><input type="text" id="pf-city" /></span></div>
+              <div class="profile-field"><span class="profile-field-label">Phone</span><span class="profile-field-value"><input type="text" id="pf-phone" /></span></div>
+              <div class="profile-field"><span class="profile-field-label">Email</span><span class="profile-field-value"><input type="text" id="pf-email" /></span></div>
+              <div class="profile-field"><span class="profile-field-label">Instagram</span><span class="profile-field-value"><input type="text" id="pf-insta" /></span></div>
+              <div class="profile-field"><span class="profile-field-label">Website</span><span class="profile-field-value"><input type="text" id="pf-web" /></span></div>
+            </div>
+          </div>
+          <div class="dash-section">
+            <div class="dash-section-header"><h3>📝 About Your Business</h3></div>
+            <div class="dash-section-body">
+              <textarea class="form-input" id="pf-about" rows="5" placeholder="Describe your business..."></textarea>
+            </div>
+          </div>
+          <button class="btn btn-primary" onclick="saveProfile()">Save Changes</button>
+        </div>
+
+        <!-- TIPS -->
+        <div class="dash-panel" id="panel-tips">
+          <div class="dash-panel-header"><h2>Growth Tips</h2></div>
+          <div class="tip-card"><div class="tip-icon">📸</div><div class="tip-text"><strong>Add real photos</strong> — vendors with photos get 3x more inquiries. Upload at least 5 portfolio images.</div></div>
+          <div class="tip-card"><div class="tip-icon">⭐</div><div class="tip-text"><strong>Request reviews</strong> — after every wedding, ask your couple to leave a review on Farah. Vendors with 10+ reviews get priority placement.</div></div>
+          <div class="tip-card"><div class="tip-icon">📅</div><div class="tip-text"><strong>Update your availability</strong> — couples want to know if you're available for their date. Keep your calendar updated.</div></div>
+          <div class="tip-card"><div class="tip-icon">💬</div><div class="tip-text"><strong>Reply quickly</strong> — respond to inquiries within 24 hours. Couples choose vendors who respond fast.</div></div>
+          <div class="tip-card"><div class="tip-icon">🧵</div><div class="tip-text"><strong>Highlight cultural offerings</strong> — list Palestinian-specific services like tatreez, dabke, or traditional food. These are what Farah couples are looking for.</div></div>
+          <div class="tip-card"><div class="tip-icon">💰</div><div class="tip-text"><strong>Set competitive pricing</strong> — transparent pricing increases inquiries by 45%. Consider offering packages for different budgets.</div></div>
+        </div>
+
+      </main>
+    </div>
+  </div>
+
+  <div id="footer-root"></div>
+</div>
+
+<script src="js/data.js"></script>
+<script src="js/app.js"></script>
+<script>
+  // Auth guard
+  if (!Auth.isLoggedIn()) {
+    window.location.href = 'auth.html?redirect=vendor-dashboard.html';
+  } else if (Auth.getCurrentUser().type === 'couple') {
+    window.location.href = 'dashboard.html';
+  }
+
+  const user = Auth.getCurrentUser();
+
+  // Populate user info
+  document.getElementById('vendor-avatar').textContent = user.name.charAt(0).toUpperCase();
+  document.getElementById('vendor-name').textContent   = user.name;
+  document.getElementById('pb-avatar').textContent     = user.name.charAt(0).toUpperCase();
+  document.getElementById('pb-name').textContent       = user.name;
+  document.getElementById('pb-joined').textContent     = new Date(user.createdAt).toLocaleDateString('en', {month:'short',year:'numeric'});
+
+  // Panel navigation
+  function showPanel(id, btn) {
+    document.querySelectorAll('.dash-panel').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.dash-nav-item').forEach(b => b.classList.remove('active'));
+    document.getElementById('panel-' + id).classList.add('active');
+    if (btn) btn.classList.add('active');
+    if (id === 'inquiries') renderAllInquiries();
+    if (id === 'profile')   loadProfileFields();
+  }
+
+  // Inquiries
+  function getInquiries() { return Inquiries.getAll(); } // all for demo (no vendor ID matching)
+
+  function renderInqRow(inq) {
+    const initials = inq.userName ? inq.userName.charAt(0).toUpperCase() : '?';
+    return `<div class="inq-row">
+      <div class="inq-avatar">${initials}</div>
+      <div class="inq-info">
+        <div class="inq-sender">${escHtml(inq.userName || 'Anonymous')}</div>
+        <div class="inq-msg-text">${escHtml(inq.message)}</div>
+        <div class="inq-date">${inq.date ? 'Wedding date: ' + escHtml(inq.date) + ' · ' : ''}Received ${new Date(inq.createdAt).toLocaleDateString()}</div>
+      </div>
+      <div class="inq-actions">
+        <span class="badge badge-crimson">New</span>
+      </div>
+    </div>`;
+  }
+
+  function renderRecentInquiries() {
+    const inqs = getInquiries().slice(-3).reverse();
+    const el = document.getElementById('recent-inq-body');
+    if (inqs.length === 0) {
+      el.innerHTML = `<div class="empty-state" style="padding:1.5rem"><div style="font-size:2rem">📩</div><p style="font-size:0.85rem;margin-top:0.5rem">No inquiries yet. Complete your profile to attract couples.</p></div>`;
+    } else {
+      el.innerHTML = inqs.map(renderInqRow).join('');
+    }
+    document.getElementById('stat-inq-count').textContent = inqs.length;
+    const badge = document.getElementById('inq-badge');
+    if (inqs.length > 0) { badge.style.display = 'inline'; badge.textContent = inqs.length; }
+  }
+
+  function renderAllInquiries() {
+    const inqs = getInquiries().slice().reverse();
+    const el = document.getElementById('all-inq-body');
+    if (inqs.length === 0) {
+      el.innerHTML = `<div class="empty-state"><div class="empty-icon">📩</div><h3>No inquiries yet</h3><p>Your inquiries from couples will appear here.</p></div>`;
+    } else {
+      el.innerHTML = inqs.map(renderInqRow).join('');
+    }
+  }
+
+  // Profile checklist
+  const profileChecks = [
+    { text: 'Business name set', done: true },
+    { text: 'Contact info added', done: true },
+    { text: 'About section written', done: true },
+    { text: 'Services listed', done: false },
+    { text: 'Portfolio photos uploaded', done: false },
+    { text: 'At least 3 reviews received', done: false },
+  ];
+  document.getElementById('profile-checklist-items').innerHTML = profileChecks.map(c => `
+    <div class="checklist-item">
+      <div class="check-box ${c.done ? 'checked' : ''}">${c.done ? '✓' : ''}</div>
+      <span class="check-text ${c.done ? 'done' : ''}">${escHtml(c.text)}</span>
+    </div>`).join('');
+
+  // Profile fields
+  const vendorProfile = Storage.get(`vendor_profile_${user.id}`, {
+    name: user.name, cat: '', city: '', phone: '', email: user.email, insta: '', web: '', about: ''
+  });
+  function loadProfileFields() {
+    document.getElementById('pf-name').value  = vendorProfile.name || '';
+    document.getElementById('pf-cat').value   = vendorProfile.cat  || '';
+    document.getElementById('pf-city').value  = vendorProfile.city || '';
+    document.getElementById('pf-phone').value = vendorProfile.phone|| '';
+    document.getElementById('pf-email').value = vendorProfile.email|| '';
+    document.getElementById('pf-insta').value = vendorProfile.insta|| '';
+    document.getElementById('pf-web').value   = vendorProfile.web  || '';
+    document.getElementById('pf-about').value = vendorProfile.about|| '';
+  }
+  function saveProfile() {
+    vendorProfile.name  = document.getElementById('pf-name').value;
+    vendorProfile.cat   = document.getElementById('pf-cat').value;
+    vendorProfile.city  = document.getElementById('pf-city').value;
+    vendorProfile.phone = document.getElementById('pf-phone').value;
+    vendorProfile.email = document.getElementById('pf-email').value;
+    vendorProfile.insta = document.getElementById('pf-insta').value;
+    vendorProfile.web   = document.getElementById('pf-web').value;
+    vendorProfile.about = document.getElementById('pf-about').value;
+    Storage.set(`vendor_profile_${user.id}`, vendorProfile);
+    showToast('Profile saved! ✦', 'success');
+  }
+
+  renderRecentInquiries();
+</script>
+</body>
+</html>

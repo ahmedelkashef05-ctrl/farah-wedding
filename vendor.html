@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Vendor — Farah Wedding Marketplace</title>
+  <link rel="stylesheet" href="css/main.css" />
+  <style>
+    .vendor-detail-wrap { background: var(--ivory); }
+    .section-title { font-family: 'Playfair Display', serif; font-size: 1.3rem; font-weight: 600; color: var(--text); margin-bottom: 1rem; display: flex; align-items: center; gap: 10px; }
+    .section-title::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+    .about-text { color: var(--muted); font-size: 0.92rem; line-height: 1.8; }
+    .rating-overview { display: flex; align-items: center; gap: 1.5rem; padding: 1.2rem; background: var(--cream); border-radius: var(--r-md); margin-bottom: 1.4rem; }
+    .rating-big { text-align: center; }
+    .rating-big .num { font-family: 'Cinzel Decorative', serif; font-size: 3rem; color: var(--crimson); line-height: 1; }
+    .rating-big .stars { font-size: 1.3rem; color: var(--gold); }
+    .rating-big .cnt { font-size: 0.78rem; color: var(--muted); }
+    .rating-bars { flex: 1; display: flex; flex-direction: column; gap: 0.4rem; }
+    .rating-bar-row { display: flex; align-items: center; gap: 8px; font-size: 0.78rem; color: var(--muted); }
+    .rating-bar-row .label { width: 30px; text-align: right; }
+    .rating-bar-row .bar { flex: 1; height: 7px; background: var(--border); border-radius: 4px; overflow: hidden; }
+    .rating-bar-row .fill { height: 100%; background: var(--gold); border-radius: 4px; }
+    .inquiry-form { background: #fff; border: 1.5px solid var(--border); border-radius: var(--r-md); padding: 1.5rem; }
+    .inquiry-form h3 { font-family: 'Playfair Display', serif; font-size: 1.1rem; margin-bottom: 1.2rem; color: var(--text); }
+    .price-highlight { background: linear-gradient(135deg, rgba(139,26,26,0.06), rgba(201,168,76,0.08)); border: 1px solid var(--border); border-radius: var(--r-sm); padding: 1rem 1.2rem; margin-bottom: 1.2rem; display: flex; align-items: center; justify-content: space-between; }
+    .back-link { display: inline-flex; align-items: center; gap: 6px; color: var(--muted); font-size: 0.85rem; margin-bottom: 1.5rem; cursor: pointer; transition: color 0.18s; }
+    .back-link:hover { color: var(--crimson); }
+    .vendor-headline { margin-bottom: 1.8rem; }
+    .vendor-headline h1 { font-family: 'Playfair Display', serif; font-size: clamp(1.6rem, 3vw, 2.2rem); font-weight: 600; color: var(--text); }
+    .vendor-headline .arabic { font-size: 1.1rem; color: var(--muted); margin-top: 4px; }
+    .vendor-meta { display: flex; flex-wrap: wrap; gap: 1rem; align-items: center; margin: 0.8rem 0; }
+    .vendor-meta-item { display: flex; align-items: center; gap: 6px; font-size: 0.84rem; color: var(--muted); }
+  </style>
+</head>
+<body>
+<div class="tatreez-bg"></div>
+<div class="page-wrap vendor-detail-wrap">
+
+  <div id="nav-root"></div>
+
+  <div id="vendor-content">
+    <!-- populated by JS -->
+    <div style="text-align:center;padding:5rem;color:var(--muted)">Loading vendor…</div>
+  </div>
+
+  <div class="tatreez-divider"></div>
+  <div id="footer-root"></div>
+</div>
+
+<script src="js/data.js"></script>
+<script src="js/app.js"></script>
+<script>
+  const vendorId = parseInt(new URLSearchParams(window.location.search).get('id'));
+  const vendor = VENDORS.find(v => v.id === vendorId);
+
+  if (!vendor) {
+    document.getElementById('vendor-content').innerHTML = `
+      <div class="empty-state" style="padding:6rem 2rem">
+        <div class="empty-icon">😕</div>
+        <h3>Vendor Not Found</h3>
+        <p>This vendor may have been removed or the link is incorrect.</p>
+        <a href="vendors.html" class="btn btn-primary">Browse All Vendors</a>
+      </div>`;
+  } else {
+    document.title = vendor.name + ' — Farah Wedding Marketplace';
+
+    function submitInquiry(e) {
+      e.preventDefault();
+      if (!Auth.requireLogin(window.location.href)) return;
+      const user = Auth.getCurrentUser();
+      const msg  = document.getElementById('inq-message').value.trim();
+      const date = document.getElementById('inq-date').value;
+      if (!msg) { showToast('Please write a message.', 'error'); return; }
+      Inquiries.add(vendor.id, msg, date, user.id, user.name);
+      showToast('Inquiry sent! The vendor will get back to you soon. ✦', 'success');
+      document.getElementById('inq-form').reset();
+      document.getElementById('inq-thanks').style.display = 'block';
+      document.getElementById('inq-form').style.display = 'none';
+    }
+
+    const wishlisted = Wishlist.has(vendor.id);
+
+    document.getElementById('vendor-content').innerHTML = `
+      <div class="tatreez-divider" style="height:8px"></div>
+
+      <div class="vendor-detail-layout">
+
+        <!-- LEFT COLUMN -->
+        <div>
+          <div class="back-link" onclick="window.history.back()">← Back to Vendors</div>
+
+          <!-- Gallery -->
+          <div class="vendor-gallery">
+            <div class="gallery-main" style="background:${vendor.gradient}">${vendor.emoji}</div>
+            <div class="gallery-thumb" style="background:${vendor.gradient};opacity:0.7">${vendor.emoji}</div>
+            <div class="gallery-thumb" style="background:${vendor.gradient};opacity:0.5">${vendor.emoji}</div>
+          </div>
+
+          <!-- Headline -->
+          <div class="vendor-headline">
+            <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:1rem">
+              <div>
+                <div class="vendor-cat-label" style="font-size:0.72rem;font-weight:700;letter-spacing:0.15em;text-transform:uppercase;color:var(--crimson);margin-bottom:0.4rem">${escHtml(vendor.category)}</div>
+                <h1>${escHtml(vendor.name)}</h1>
+                <div class="arabic">${escHtml(vendor.nameAr)}</div>
+              </div>
+              <button onclick="toggleDetailWishlist(this)" id="wl-btn" style="background:none;border:1.5px solid var(--border);border-radius:var(--r-sm);padding:0.5rem 1rem;font-size:1rem;cursor:pointer;white-space:nowrap;transition:all 0.2s">
+                ${wishlisted ? '❤️ Saved' : '🤍 Save'}
+              </button>
+            </div>
+            <div class="vendor-meta">
+              <div class="vendor-meta-item">📍 ${escHtml(vendor.city)}</div>
+              <div class="vendor-meta-item">★ ${vendor.rating} <span style="color:var(--border)">&bull;</span> ${vendor.reviews} reviews</div>
+              <div class="vendor-meta-item">💰 From ${formatCurrency(vendor.price)} / ${escHtml(vendor.priceUnit)}</div>
+            </div>
+            <div class="vendor-tags">${vendor.tags.map(t=>`<span class="tag">${escHtml(t)}</span>`).join('')}</div>
+          </div>
+
+          <!-- About -->
+          <div style="margin-bottom:2rem">
+            <div class="section-title">About</div>
+            <p class="about-text">${escHtml(vendor.about)}</p>
+          </div>
+
+          <!-- Services -->
+          <div style="margin-bottom:2rem">
+            <div class="section-title">Services Offered</div>
+            <div class="vendor-services-grid">
+              ${vendor.services.map(s=>`<div class="service-item">${escHtml(s)}</div>`).join('')}
+            </div>
+          </div>
+
+          <!-- Reviews -->
+          <div style="margin-bottom:2rem">
+            <div class="section-title">Reviews (${vendor.reviews})</div>
+            <div class="rating-overview">
+              <div class="rating-big">
+                <div class="num">${vendor.rating}</div>
+                <div class="stars">${starsHTML(vendor.rating)}</div>
+                <div class="cnt">${vendor.reviews} reviews</div>
+              </div>
+              <div class="rating-bars">
+                ${[5,4,3,2,1].map(s => {
+                  const pct = s === 5 ? 78 : s === 4 ? 16 : s === 3 ? 4 : s === 2 ? 1 : 1;
+                  return `<div class="rating-bar-row"><span class="label">${s}★</span><div class="bar"><div class="fill" style="width:${pct}%"></div></div><span>${pct}%</span></div>`;
+                }).join('')}
+              </div>
+            </div>
+            ${vendor.reviewList.map(r => `
+              <div class="review-card">
+                <div class="review-header">
+                  <div class="review-avatar">${r.initial}</div>
+                  <div>
+                    <div class="review-name">${escHtml(r.name)}</div>
+                    <div style="display:flex;align-items:center;gap:8px">
+                      <span style="color:var(--gold);font-size:0.8rem">${'★'.repeat(r.stars)}</span>
+                      <span class="review-date">${escHtml(r.date)}</span>
+                    </div>
+                  </div>
+                </div>
+                <p class="review-text">"${escHtml(r.text)}"</p>
+              </div>
+            `).join('')}
+          </div>
+        </div>
+
+        <!-- RIGHT SIDEBAR -->
+        <div>
+          <div class="vendor-info-card">
+            <div class="price-highlight">
+              <div>
+                <div style="font-size:0.72rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);margin-bottom:4px">Starting From</div>
+                <div class="vendor-info-price">${formatCurrency(vendor.price)} <small>/ ${escHtml(vendor.priceUnit)}</small></div>
+              </div>
+              <span style="font-size:2rem">${vendor.emoji}</span>
+            </div>
+
+            <!-- Contact Details -->
+            <div style="margin-bottom:1.2rem">
+              <div class="vendor-contact-row"><span class="icon">📞</span><span>${escHtml(vendor.phone)}</span></div>
+              <div class="vendor-contact-row"><span class="icon">✉️</span><span>${escHtml(vendor.email)}</span></div>
+              <div class="vendor-contact-row"><span class="icon">📸</span><span>${escHtml(vendor.instagram)}</span></div>
+              <div class="vendor-contact-row"><span class="icon">🌐</span><span>${escHtml(vendor.website)}</span></div>
+            </div>
+
+            <!-- Inquiry Form -->
+            <div class="inquiry-form">
+              <h3>Send an Inquiry</h3>
+              <div id="inq-thanks" style="display:none;text-align:center;padding:1.5rem 1rem;color:var(--green)">
+                <div style="font-size:2rem;margin-bottom:0.5rem">✔</div>
+                <div style="font-weight:700">Inquiry Sent!</div>
+                <div style="font-size:0.84rem;color:var(--muted);margin-top:0.4rem">The vendor will contact you shortly.</div>
+                <button class="btn btn-ghost btn-sm" style="margin-top:1rem" onclick="document.getElementById('inq-thanks').style.display='none';document.getElementById('inq-form').style.display='block'">Send Another</button>
+              </div>
+              <form id="inq-form" onsubmit="submitInquiry(event)">
+                <div class="form-group">
+                  <label class="form-label">Wedding Date</label>
+                  <input class="form-input" type="date" id="inq-date" />
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Your Message *</label>
+                  <textarea class="form-input" id="inq-message" rows="4" placeholder="Tell ${escHtml(vendor.name.split(' ')[0])} about your wedding — date, guests, vision…"></textarea>
+                </div>
+                <button class="btn btn-primary btn-block" type="submit">Send Inquiry ✦</button>
+                <p style="text-align:center;font-size:0.75rem;color:var(--muted);margin-top:0.6rem">Free to inquire · No booking fees</p>
+              </form>
+            </div>
+
+            <div style="margin-top:1rem;text-align:center">
+              <button onclick="toggleDetailWishlist(document.getElementById('wl-btn'))" class="btn btn-ghost btn-block btn-sm">
+                ${wishlisted ? '❤️ Saved to Wishlist' : '🤍 Save to Wishlist'}
+              </button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- More Vendors -->
+      <div style="background:var(--cream);padding:3rem 0">
+        <div style="max-width:1200px;margin:0 auto;padding:0 2rem">
+          <div class="section-header">
+            <div class="section-tag">You May Also Like</div>
+            <h2>More <em>${escHtml(vendor.category)}</em> Vendors</h2>
+            <div class="gold-line"></div>
+          </div>
+          <div class="vendors-grid">
+            ${VENDORS.filter(v => v.category === vendor.category && v.id !== vendor.id).slice(0,3).map(vendorCardHTML).join('') || '<p style="color:var(--muted);text-align:center">No other vendors in this category yet.</p>'}
+          </div>
+        </div>
+      </div>
+    `;
+  }
+
+  function toggleDetailWishlist(btn) {
+    if (!vendor) return;
+    const added = Wishlist.toggle(vendor.id);
+    btn.innerHTML = added ? '❤️ Saved' : '🤍 Save';
+    showToast(added ? 'Saved to your wishlist ❤️' : 'Removed from wishlist', added ? 'success' : 'info');
+    // Also update sidebar button
+    const sideBtn = document.querySelector('.vendor-info-card .btn-ghost');
+    if (sideBtn) sideBtn.innerHTML = added ? '❤️ Saved to Wishlist' : '🤍 Save to Wishlist';
+  }
+</script>
+</body>
+</html>

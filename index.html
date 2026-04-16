@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Farah — Palestinian Wedding Marketplace | فرح</title>
+  <link rel="stylesheet" href="css/main.css" />
+  <style>
+    /* ── Hero ── */
+    .hero {
+      position: relative; min-height: 88vh;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      text-align: center; padding: 5rem 2rem;
+      background:
+        linear-gradient(180deg, rgba(26,26,26,0.72) 0%, rgba(139,26,26,0.42) 60%, rgba(26,26,26,0.7) 100%),
+        url('https://images.unsplash.com/photo-1519225421980-715cb0215aed?w=1800&q=80') center/cover no-repeat;
+      overflow: hidden;
+    }
+    .hero::before, .hero::after {
+      content: ''; position: absolute; left: 0; right: 0; height: 10px;
+      background: repeating-linear-gradient(90deg, var(--gold) 0,var(--gold) 12px, var(--crimson) 12px,var(--crimson) 20px, #000 20px,#000 24px, var(--crimson) 24px,var(--crimson) 32px, var(--gold) 32px,var(--gold) 44px, #fff 44px,#fff 48px, var(--gold) 48px,var(--gold) 60px);
+    }
+    .hero::before { top: 0; } .hero::after { bottom: 0; }
+    .hero-ornament { font-size: 3rem; color: var(--gold); opacity: 0.9; margin-bottom: 0.4rem; filter: drop-shadow(0 2px 6px rgba(0,0,0,0.6)); line-height: 1; }
+    .hero-arabic { font-family: 'Playfair Display', serif; color: var(--gold-lt); font-size: 1.8rem; letter-spacing: 0.1em; margin-bottom: 0.3rem; text-shadow: 0 2px 8px rgba(0,0,0,0.7); }
+    .hero h1 { font-family: 'Cinzel Decorative', serif; color: #fff; font-size: clamp(2.2rem, 6vw, 4.2rem); line-height: 1.1; letter-spacing: 0.04em; text-shadow: 0 2px 20px rgba(0,0,0,0.7); margin-bottom: 0.5rem; }
+    .hero h1 em { color: var(--gold); font-style: normal; }
+    .hero-subtitle { color: rgba(255,255,255,0.82); font-size: 1.1rem; font-weight: 300; letter-spacing: 0.05em; margin-bottom: 2.4rem; text-shadow: 0 1px 6px rgba(0,0,0,0.6); }
+    .hero-search { display: flex; width: 100%; max-width: 620px; background: #fff; border-radius: 50px; overflow: hidden; box-shadow: 0 8px 32px rgba(0,0,0,0.4); border: 2px solid var(--gold); }
+    .hero-search input { flex: 1; border: none; outline: none; padding: 0.9rem 1.4rem; font-size: 0.94rem; color: var(--text); background: transparent; }
+    .hero-search select { border: none; border-left: 1px solid var(--border); outline: none; padding: 0.9rem 1rem; font-size: 0.86rem; color: var(--muted); background: #fdf9f5; cursor: pointer; }
+    .hero-search button { background: linear-gradient(135deg, var(--crimson), var(--red-dark)); color: #fff; border: none; padding: 0 1.8rem; font-size: 0.92rem; font-weight: 700; cursor: pointer; letter-spacing: 0.04em; transition: opacity 0.2s; white-space: nowrap; }
+    .hero-search button:hover { opacity: 0.88; }
+    .hero-stats { display: flex; gap: 2.8rem; margin-top: 3rem; }
+    .stat { text-align: center; }
+    .stat-num { font-family: 'Cinzel Decorative', serif; font-size: 1.7rem; color: var(--gold); line-height: 1; }
+    .stat-lbl { color: rgba(255,255,255,0.65); font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase; margin-top: 4px; }
+
+    /* ── Categories ── */
+    .cream-band { background: var(--cream); }
+
+    /* ── Featured ── */
+    .testi-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(290px, 1fr)); gap: 1.6rem; }
+    .testi-card { background: #fff; border: 1px solid var(--border); border-radius: var(--r-md); padding: 1.6rem; position: relative; }
+    .testi-card::before { content: '\201C'; position: absolute; top: -10px; left: 16px; font-family: 'Playfair Display', serif; font-size: 5rem; color: var(--gold); line-height: 1; opacity: 0.35; }
+    .testi-text { color: var(--muted); font-size: 0.9rem; line-height: 1.8; margin-bottom: 1.1rem; font-style: italic; }
+    .testi-author { display: flex; align-items: center; gap: 0.8rem; }
+    .testi-avatar { width: 42px; height: 42px; border-radius: 50%; background: linear-gradient(135deg, var(--crimson), var(--gold)); display: flex; align-items: center; justify-content: center; color: #fff; font-weight: 700; font-size: 1rem; }
+    .testi-name { font-weight: 700; font-size: 0.88rem; color: var(--text); }
+    .testi-wedding { font-size: 0.72rem; color: var(--muted); }
+  </style>
+</head>
+<body>
+
+<div class="tatreez-bg"></div>
+<div class="page-wrap">
+
+  <div id="nav-root"></div>
+
+  <!-- ═══ HERO ═══ -->
+  <section class="hero">
+    <div class="hero-ornament">✦ ❧ ✦</div>
+    <div class="hero-arabic">فرحك يبدأ هنا</div>
+    <h1>Your <em>Farah</em> Starts Here</h1>
+    <p class="hero-subtitle">Discover trusted Palestinian wedding vendors — from Ramallah to the diaspora</p>
+    <div class="hero-search">
+      <input type="text" id="hero-q" placeholder="Search photographers, venues, caterers..." />
+      <select id="hero-city">
+        <option value="">All Cities</option>
+        <option>Ramallah</option>
+        <option>Jerusalem</option>
+        <option>Nablus</option>
+        <option>Bethlehem</option>
+        <option>Haifa</option>
+        <option>Hebron</option>
+        <option>Diaspora — Detroit</option>
+      </select>
+      <button onclick="doHeroSearch()">Search</button>
+    </div>
+    <div class="hero-stats">
+      <div class="stat"><div class="stat-num">480+</div><div class="stat-lbl">Vendors</div></div>
+      <div class="stat"><div class="stat-num">1,200+</div><div class="stat-lbl">Happy Couples</div></div>
+      <div class="stat"><div class="stat-num">18</div><div class="stat-lbl">Cities</div></div>
+      <div class="stat"><div class="stat-num">4.9★</div><div class="stat-lbl">Avg Rating</div></div>
+    </div>
+  </section>
+
+  <div class="tatreez-divider"></div>
+
+  <!-- ═══ CATEGORIES ═══ -->
+  <div class="cream-band">
+    <div class="section" id="categories">
+      <div class="section-header">
+        <div class="section-tag">Browse by Category</div>
+        <h2>Everything for Your <em>Arees</em> & <em>Aroos</em></h2>
+        <div class="gold-line"></div>
+        <p>From henna nights to the big day — find every vendor you need in one place.</p>
+      </div>
+      <div class="categories-grid">
+        <div class="cat-card" onclick="goCategory('Photography')"><div class="cat-icon">📷</div><div class="cat-name">Photography</div><div class="cat-count">2 vendors</div></div>
+        <div class="cat-card" onclick="goCategory('Venue')"><div class="cat-icon">🏛️</div><div class="cat-name">Venues & Halls</div><div class="cat-count">1 vendor</div></div>
+        <div class="cat-card" onclick="goCategory('Catering')"><div class="cat-icon">🍽️</div><div class="cat-name">Catering</div><div class="cat-count">1 vendor</div></div>
+        <div class="cat-card" onclick="goCategory('Flowers')"><div class="cat-icon">🌸</div><div class="cat-name">Flowers & Décor</div><div class="cat-count">1 vendor</div></div>
+        <div class="cat-card" onclick="goCategory('Music')"><div class="cat-icon">🎶</div><div class="cat-name">Music & Dabke</div><div class="cat-count">1 vendor</div></div>
+        <div class="cat-card" onclick="goCategory('Henna')"><div class="cat-icon">🌿</div><div class="cat-name">Henna Artists</div><div class="cat-count">1 vendor</div></div>
+        <div class="cat-card" onclick="goCategory('Fashion')"><div class="cat-icon">👗</div><div class="cat-name">Bridal Fashion</div><div class="cat-count">1 vendor</div></div>
+        <div class="cat-card" onclick="goCategory('Sweets')"><div class="cat-icon">🍰</div><div class="cat-name">Sweets & Cake</div><div class="cat-count">1 vendor</div></div>
+        <div class="cat-card" onclick="goCategory('Makeup')"><div class="cat-icon">💄</div><div class="cat-name">Hair & Makeup</div><div class="cat-count">1 vendor</div></div>
+        <div class="cat-card" onclick="goCategory('Invitations')"><div class="cat-icon">✉️</div><div class="cat-name">Invitations</div><div class="cat-count">1 vendor</div></div>
+        <div class="cat-card" onclick="goCategory('Tatreez')"><div class="cat-icon">🧵</div><div class="cat-name">Tatreez & Crafts</div><div class="cat-count">1 vendor</div></div>
+        <div class="cat-card" onclick="goCategory('')"><div class="cat-icon">✨</div><div class="cat-name">View All</div><div class="cat-count">12 vendors</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="tatreez-divider"></div>
+
+  <!-- ═══ FEATURED VENDORS ═══ -->
+  <div>
+    <div class="section">
+      <div class="section-header">
+        <div class="section-tag">Featured Vendors</div>
+        <h2>Trusted by Palestinian <em>Families</em></h2>
+        <div class="gold-line"></div>
+      </div>
+      <div class="vendors-grid" id="featured-grid"></div>
+      <div style="text-align:center;margin-top:2.4rem">
+        <a href="vendors.html" class="btn btn-outline btn-lg">View All Vendors →</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="tatreez-divider"></div>
+
+  <!-- ═══ WHY FARAH ═══ -->
+  <div class="why-band" id="about">
+    <div class="why-inner">
+      <div class="why-item"><div class="why-icon">🏡</div><div class="why-title">Community-First</div><div class="why-text">Every vendor is verified by our Palestinian community team. We support local artisans across the homeland and diaspora.</div></div>
+      <div class="why-item"><div class="why-icon">🧵</div><div class="why-title">Cultural Authenticity</div><div class="why-text">From dabke troupes to tatreez makers — we celebrate and preserve Palestinian wedding heritage in every listing.</div></div>
+      <div class="why-item"><div class="why-icon">🔒</div><div class="why-title">Secure Booking</div><div class="why-text">Message, quote, and book vendors directly through Farah with secure payment and transparent contracts.</div></div>
+      <div class="why-item"><div class="why-icon">🌍</div><div class="why-title">Homeland & Diaspora</div><div class="why-text">Planning from abroad? We connect Palestinian couples worldwide with vendors both at home and in their communities.</div></div>
+    </div>
+  </div>
+
+  <div class="tatreez-divider"></div>
+
+  <!-- ═══ TESTIMONIALS ═══ -->
+  <div class="cream-band">
+    <div class="section">
+      <div class="section-header">
+        <div class="section-tag">Stories</div>
+        <h2>Couples Who Found Their <em>Farah</em></h2>
+        <div class="gold-line"></div>
+      </div>
+      <div class="testi-grid">
+        <div class="testi-card">
+          <p class="testi-text">"We planned our entire Ramallah wedding from Chicago using Farah. We found our photographer, dabke band, and tatreez invitations — all in one place. يعطيكم العافية!"</p>
+          <div class="testi-author"><div class="testi-avatar">ل</div><div><div class="testi-name">Layla & Mohammed Mansour</div><div class="testi-wedding">Married Oct 2025 · Ramallah</div></div></div>
+        </div>
+        <div class="testi-card">
+          <p class="testi-text">"Reem's henna was breathtaking — traditional Palestinian patterns from my grandmother's thobe translated into the most beautiful bridal henna I've ever seen."</p>
+          <div class="testi-author"><div class="testi-avatar">س</div><div><div class="testi-name">Sara & Khaled Barakat</div><div class="testi-wedding">Married Mar 2025 · Jerusalem</div></div></div>
+        </div>
+        <div class="testi-card">
+          <p class="testi-text">"The catering from Sufra made our guests feel like they were at a walima back home. The musakhan was perfection. Farah made finding them so easy!"</p>
+          <div class="testi-author"><div class="testi-avatar">ن</div><div><div class="testi-name">Nadia & Hamza Odeh</div><div class="testi-wedding">Married Jan 2026 · Nablus</div></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ CTA ═══ -->
+  <div class="cta-banner">
+    <h2>Are You a Wedding Vendor?</h2>
+    <p>Join Farah and connect with Palestinian couples planning their dream wedding across the homeland and the diaspora.</p>
+    <div class="cta-btns">
+      <button class="btn btn-gold btn-lg" onclick="window.location='auth.html?type=vendor'">List Your Business</button>
+      <button class="btn btn-outline btn-lg" style="color:#fff;border-color:rgba(255,255,255,0.5)" onclick="window.location='auth.html'">Learn More</button>
+    </div>
+  </div>
+
+  <div id="footer-root"></div>
+</div>
+
+<script src="js/data.js"></script>
+<script src="js/app.js"></script>
+<script>
+  // Render featured vendors (first 6)
+  document.getElementById('featured-grid').innerHTML =
+    VENDORS.slice(0, 6).map(vendorCardHTML).join('');
+
+  function goCategory(cat) {
+    window.location = 'vendors.html' + (cat ? '?cat=' + encodeURIComponent(cat) : '');
+  }
+
+  function doHeroSearch() {
+    const q    = document.getElementById('hero-q').value.trim();
+    const city = document.getElementById('hero-city').value;
+    const params = new URLSearchParams();
+    if (q) params.set('q', q);
+    if (city) params.set('city', city);
+    window.location = 'vendors.html?' + params.toString();
+  }
+
+  document.getElementById('hero-q').addEventListener('keydown', e => {
+    if (e.key === 'Enter') doHeroSearch();
+  });
+</script>
+</body>
+</html>

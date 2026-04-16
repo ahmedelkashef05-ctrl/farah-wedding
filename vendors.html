@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Find Vendors — Farah Wedding Marketplace</title>
+  <link rel="stylesheet" href="css/main.css" />
+  <style>
+    .vendors-page { max-width: 1200px; margin: 0 auto; padding: 2rem; }
+    .search-bar { display: flex; gap: 0.8rem; margin-bottom: 1.6rem; flex-wrap: wrap; }
+    .search-bar input { flex: 1; min-width: 200px; }
+    .search-bar select { min-width: 140px; }
+    .results-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.2rem; }
+    .results-count { font-size: 0.88rem; color: var(--muted); }
+    .sort-select { font-size: 0.84rem; padding: 0.42rem 0.8rem; border: 1.5px solid var(--border); border-radius: var(--r-sm); background: #fff; color: var(--text); cursor: pointer; outline: none; }
+    .no-results { text-align: center; padding: 4rem 2rem; color: var(--muted); }
+    .no-results-icon { font-size: 3rem; margin-bottom: 1rem; }
+  </style>
+</head>
+<body>
+<div class="tatreez-bg"></div>
+<div class="page-wrap">
+
+  <div id="nav-root"></div>
+
+  <div class="page-header">
+    <div class="page-header-inner">
+      <div class="breadcrumb"><a href="index.html">Home</a><span>/</span><span>Find Vendors</span></div>
+      <h1>Find Your Vendors</h1>
+      <p>Browse 480+ Palestinian wedding professionals</p>
+    </div>
+  </div>
+
+  <div class="tatreez-divider"></div>
+
+  <div class="vendors-page">
+
+    <!-- Search & Filters -->
+    <div class="search-bar">
+      <input class="form-input" type="text" id="search-q" placeholder="Search by name, service..." />
+      <select class="form-input" id="search-city">
+        <option value="">All Cities</option>
+        <option>Ramallah</option>
+        <option>Jerusalem</option>
+        <option>Nablus</option>
+        <option>Bethlehem</option>
+        <option>Haifa</option>
+        <option>Hebron</option>
+        <option>Diaspora — Detroit</option>
+      </select>
+      <button class="btn btn-primary" onclick="applyFilters()">Search</button>
+    </div>
+
+    <div class="filter-bar" id="cat-filters">
+      <span class="filter-label">Category:</span>
+      <button class="filter-chip active" data-cat="">All</button>
+      <button class="filter-chip" data-cat="Photography">Photography</button>
+      <button class="filter-chip" data-cat="Venue">Venues</button>
+      <button class="filter-chip" data-cat="Catering">Catering</button>
+      <button class="filter-chip" data-cat="Henna">Henna</button>
+      <button class="filter-chip" data-cat="Music">Music & Dabke</button>
+      <button class="filter-chip" data-cat="Flowers">Flowers</button>
+      <button class="filter-chip" data-cat="Sweets">Sweets</button>
+      <button class="filter-chip" data-cat="Fashion">Fashion</button>
+      <button class="filter-chip" data-cat="Makeup">Makeup</button>
+      <button class="filter-chip" data-cat="Tatreez">Tatreez</button>
+      <button class="filter-chip" data-cat="Invitations">Invitations</button>
+    </div>
+
+    <div class="results-header">
+      <span class="results-count" id="results-count">Showing all vendors</span>
+      <select class="sort-select" id="sort-select" onchange="applyFilters()">
+        <option value="default">Sort: Featured</option>
+        <option value="rating">Highest Rated</option>
+        <option value="price_asc">Price: Low → High</option>
+        <option value="price_desc">Price: High → Low</option>
+        <option value="reviews">Most Reviewed</option>
+      </select>
+    </div>
+
+    <div class="vendors-grid" id="vendors-grid">
+      <!-- populated by JS -->
+    </div>
+
+    <div id="no-results" style="display:none" class="no-results">
+      <div class="no-results-icon">🔍</div>
+      <h3>No vendors found</h3>
+      <p>Try adjusting your search or browse all categories.</p>
+      <button class="btn btn-outline" onclick="clearFilters()">Clear Filters</button>
+    </div>
+
+  </div>
+
+  <div class="tatreez-divider"></div>
+
+  <!-- CTA -->
+  <div class="cta-banner">
+    <h2>Are You a Wedding Vendor?</h2>
+    <p>List your business on Farah and reach thousands of Palestinian couples planning their special day.</p>
+    <div class="cta-btns">
+      <button class="btn btn-gold btn-lg" onclick="window.location='auth.html?type=vendor'">Join as a Vendor</button>
+    </div>
+  </div>
+
+  <div id="footer-root"></div>
+</div>
+
+<script src="js/data.js"></script>
+<script src="js/app.js"></script>
+<script>
+  let activeCategory = '';
+
+  // Read URL params
+  const params = new URLSearchParams(window.location.search);
+  if (params.get('q')) document.getElementById('search-q').value = params.get('q');
+  if (params.get('city')) {
+    const sel = document.getElementById('search-city');
+    [...sel.options].forEach(o => { if (o.value === params.get('city')) o.selected = true; });
+  }
+  if (params.get('cat')) activeCategory = params.get('cat');
+
+  // Category chips
+  document.getElementById('cat-filters').addEventListener('click', e => {
+    const chip = e.target.closest('.filter-chip');
+    if (!chip) return;
+    document.querySelectorAll('#cat-filters .filter-chip').forEach(c => c.classList.remove('active'));
+    chip.classList.add('active');
+    activeCategory = chip.dataset.cat;
+    applyFilters();
+  });
+
+  // Set active chip from URL
+  if (activeCategory) {
+    document.querySelectorAll('#cat-filters .filter-chip').forEach(c => {
+      c.classList.toggle('active', c.dataset.cat === activeCategory);
+    });
+  }
+
+  function applyFilters() {
+    const q    = document.getElementById('search-q').value.toLowerCase().trim();
+    const city = document.getElementById('search-city').value;
+    const sort = document.getElementById('sort-select').value;
+
+    let results = VENDORS.filter(v => {
+      const matchCat  = !activeCategory || v.category === activeCategory;
+      const matchCity = !city || v.city === city;
+      const matchQ    = !q || v.name.toLowerCase().includes(q)
+                            || v.nameAr.includes(q)
+                            || v.category.toLowerCase().includes(q)
+                            || v.tags.some(t => t.toLowerCase().includes(q));
+      return matchCat && matchCity && matchQ;
+    });
+
+    if (sort === 'rating')      results.sort((a,b) => b.rating - a.rating);
+    if (sort === 'price_asc')   results.sort((a,b) => a.price - b.price);
+    if (sort === 'price_desc')  results.sort((a,b) => b.price - a.price);
+    if (sort === 'reviews')     results.sort((a,b) => b.reviews - a.reviews);
+
+    const grid = document.getElementById('vendors-grid');
+    const noRes = document.getElementById('no-results');
+    const count = document.getElementById('results-count');
+
+    if (results.length === 0) {
+      grid.innerHTML = '';
+      noRes.style.display = 'block';
+      count.textContent = '0 vendors found';
+    } else {
+      noRes.style.display = 'none';
+      grid.innerHTML = results.map(vendorCardHTML).join('');
+      count.textContent = `Showing ${results.length} vendor${results.length !== 1 ? 's' : ''}`;
+    }
+  }
+
+  function clearFilters() {
+    document.getElementById('search-q').value = '';
+    document.getElementById('search-city').value = '';
+    activeCategory = '';
+    document.querySelectorAll('#cat-filters .filter-chip').forEach(c => c.classList.toggle('active', c.dataset.cat === ''));
+    applyFilters();
+  }
+
+  document.getElementById('search-q').addEventListener('keydown', e => { if (e.key === 'Enter') applyFilters(); });
+
+  // Initial render
+  applyFilters();
+</script>
+</body>
+</html>

@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>My Wedding Planner — Farah</title>
+  <link rel="stylesheet" href="css/main.css" />
+  <style>
+    .dash-bg { background: var(--cream); min-height: calc(100vh - 68px); }
+    .countdown-card { background: linear-gradient(135deg, var(--crimson), var(--red-dark)); color: #fff; border-radius: var(--r-md); padding: 1.6rem; margin-bottom: 1.8rem; position: relative; overflow: hidden; }
+    .countdown-card::before { content: ''; position: absolute; inset: 0; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60'%3E%3Cpolygon points='30,2 58,30 30,58 2,30' fill='none' stroke='rgba(255,255,255,0.07)' stroke-width='1.5'/%3E%3C/svg%3E"); background-size: 60px; }
+    .countdown-inner { position: relative; z-index: 1; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem; }
+    .countdown-left h2 { font-family: 'Playfair Display', serif; font-size: 1.2rem; color: rgba(255,255,255,0.85); margin-bottom: 0.3rem; }
+    .countdown-days { font-family: 'Cinzel Decorative', serif; font-size: 3.5rem; color: var(--gold-lt); line-height: 1; }
+    .countdown-label { font-size: 0.8rem; color: rgba(255,255,255,0.65); letter-spacing: 0.1em; text-transform: uppercase; }
+    .countdown-set { display: flex; gap: 0.6rem; align-items: center; flex-wrap: wrap; }
+    .countdown-set input { background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.3); color: #fff; border-radius: var(--r-sm); padding: 0.5rem 0.8rem; font-size: 0.84rem; outline: none; }
+    .countdown-set input:focus { border-color: var(--gold); }
+    .dash-section { background: #fff; border: 1px solid var(--border); border-radius: var(--r-md); margin-bottom: 1.4rem; overflow: hidden; }
+    .dash-section-header { padding: 1rem 1.4rem; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; }
+    .dash-section-header h3 { font-family: 'Playfair Display', serif; font-size: 1.05rem; display: flex; align-items: center; gap: 8px; }
+    .dash-section-body { padding: 1.2rem 1.4rem; }
+    .wishlist-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 1rem; }
+    .wishlist-vendor-card { background: var(--cream); border: 1px solid var(--border); border-radius: var(--r-sm); padding: 1rem; display: flex; align-items: center; gap: 12px; cursor: pointer; transition: all 0.18s; }
+    .wishlist-vendor-card:hover { border-color: var(--crimson); background: #fff; }
+    .wl-emoji { font-size: 1.8rem; width: 40px; text-align: center; }
+    .wl-info { flex: 1; min-width: 0; }
+    .wl-name { font-weight: 700; font-size: 0.85rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .wl-cat { font-size: 0.72rem; color: var(--muted); }
+    .wl-remove { background: none; border: none; color: var(--muted); cursor: pointer; font-size: 1rem; padding: 2px; }
+    .wl-remove:hover { color: var(--crimson); }
+    .inq-row { display: flex; align-items: center; gap: 12px; padding: 0.8rem 0; border-bottom: 1px solid rgba(212,184,150,0.4); }
+    .inq-row:last-child { border-bottom: none; }
+    .inq-vendor-emoji { font-size: 1.5rem; }
+    .inq-info { flex: 1; min-width: 0; }
+    .inq-vendor-name { font-weight: 700; font-size: 0.88rem; }
+    .inq-msg { font-size: 0.8rem; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .inq-status { font-size: 0.72rem; font-weight: 700; padding: 3px 10px; border-radius: 20px; white-space: nowrap; }
+    .inq-status.pending  { background: rgba(230,81,0,0.1); color: #E65100; }
+    .inq-status.replied  { background: rgba(0,122,61,0.1); color: var(--green); }
+  </style>
+</head>
+<body>
+<div class="tatreez-bg"></div>
+<div class="page-wrap">
+
+  <div id="nav-root"></div>
+
+  <div class="dash-bg">
+    <div class="page-header" style="padding:2rem">
+      <div class="page-header-inner">
+        <h1 id="dash-greeting">My Wedding Planner</h1>
+        <p>Organise every detail of your perfect Palestinian wedding</p>
+      </div>
+    </div>
+    <div class="tatreez-divider"></div>
+
+    <div class="dashboard-layout">
+
+      <!-- SIDEBAR -->
+      <aside>
+        <div class="card" style="overflow:visible">
+          <div class="card-body" style="padding:1.2rem">
+            <div id="user-avatar" style="width:56px;height:56px;border-radius:50%;background:linear-gradient(135deg,var(--crimson),var(--gold));display:flex;align-items:center;justify-content:center;color:#fff;font-size:1.4rem;font-weight:700;margin:0 auto 0.8rem;font-family:'Cinzel Decorative',serif"></div>
+            <div id="user-name" style="text-align:center;font-weight:700;font-size:0.95rem"></div>
+            <div id="user-type" style="text-align:center;font-size:0.72rem;color:var(--muted);margin-top:3px"></div>
+          </div>
+          <div style="border-top:1px solid var(--border);padding:0.6rem">
+            <button class="dash-nav-item active" onclick="showPanel('overview',this)"><span class="icon">🏠</span> Overview</button>
+            <button class="dash-nav-item" onclick="showPanel('checklist',this)"><span class="icon">✅</span> Checklist</button>
+            <button class="dash-nav-item" onclick="showPanel('budget',this)"><span class="icon">💰</span> Budget Tracker</button>
+            <button class="dash-nav-item" onclick="showPanel('wishlist',this)"><span class="icon">❤️</span> My Wishlist</button>
+            <button class="dash-nav-item" onclick="showPanel('inquiries',this)"><span class="icon">📩</span> Inquiries</button>
+            <div style="height:1px;background:var(--border);margin:0.4rem 0.5rem"></div>
+            <button class="dash-nav-item" onclick="window.location='vendors.html'"><span class="icon">🔍</span> Find Vendors</button>
+            <button class="dash-nav-item" style="color:var(--crimson)" onclick="Auth.logout()"><span class="icon">↪</span> Sign Out</button>
+          </div>
+        </div>
+      </aside>
+
+      <!-- MAIN -->
+      <main class="dash-content">
+
+        <!-- OVERVIEW -->
+        <div class="dash-panel active" id="panel-overview">
+          <!-- Countdown -->
+          <div class="countdown-card">
+            <div class="countdown-inner">
+              <div class="countdown-left">
+                <h2>Your Wedding Day</h2>
+                <div class="countdown-days" id="countdown-num">—</div>
+                <div class="countdown-label" id="countdown-lbl">Set your wedding date →</div>
+              </div>
+              <div class="countdown-set">
+                <input type="date" id="wedding-date-input" onchange="saveWeddingDate()" />
+                <span style="font-size:0.78rem;color:rgba(255,255,255,0.6)">بالرفاء والبنين ✦</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Stats -->
+          <div class="stat-cards">
+            <div class="stat-card"><div class="stat-card-icon">✅</div><div class="stat-card-value" id="stat-done">0</div><div class="stat-card-label">Tasks Done</div></div>
+            <div class="stat-card"><div class="stat-card-icon">❤️</div><div class="stat-card-value" id="stat-saved">0</div><div class="stat-card-label">Vendors Saved</div></div>
+            <div class="stat-card"><div class="stat-card-icon">📩</div><div class="stat-card-value" id="stat-inq">0</div><div class="stat-card-label">Inquiries Sent</div></div>
+            <div class="stat-card"><div class="stat-card-icon">💰</div><div class="stat-card-value" id="stat-budget">$0</div><div class="stat-card-label">Budget Spent</div></div>
+          </div>
+
+          <!-- Checklist Progress -->
+          <div class="dash-section">
+            <div class="dash-section-header">
+              <h3>📋 Checklist Progress</h3>
+              <button class="btn btn-ghost btn-sm" onclick="showPanel('checklist',null)">View All</button>
+            </div>
+            <div class="dash-section-body">
+              <div style="display:flex;justify-content:space-between;font-size:0.82rem;color:var(--muted);margin-bottom:0.5rem">
+                <span id="prog-label">0 of 24 completed</span>
+                <span id="prog-pct">0%</span>
+              </div>
+              <div class="progress-bar"><div class="progress-fill" id="prog-fill" style="width:0%"></div></div>
+            </div>
+          </div>
+
+          <!-- Quick Wishlist -->
+          <div class="dash-section">
+            <div class="dash-section-header">
+              <h3>❤️ Saved Vendors</h3>
+              <button class="btn btn-ghost btn-sm" onclick="showPanel('wishlist',null)">View All</button>
+            </div>
+            <div class="dash-section-body" id="overview-wishlist">
+              <div class="empty-state" style="padding:1.5rem">
+                <div style="font-size:2rem">🤍</div>
+                <p style="margin:0.5rem 0 1rem;font-size:0.85rem">No vendors saved yet.</p>
+                <a href="vendors.html" class="btn btn-primary btn-sm">Browse Vendors</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- CHECKLIST -->
+        <div class="dash-panel" id="panel-checklist">
+          <div class="dash-panel-header">
+            <h2>Wedding Checklist</h2>
+            <button class="btn btn-ghost btn-sm" onclick="resetChecklist()">Reset All</button>
+          </div>
+          <div id="checklist-body"></div>
+        </div>
+
+        <!-- BUDGET -->
+        <div class="dash-panel" id="panel-budget">
+          <div class="dash-panel-header">
+            <h2>Budget Tracker</h2>
+          </div>
+          <div class="budget-total">
+            <div class="budget-total-label">Total Budget</div>
+            <div class="budget-total-amount" id="budget-total-display">$10,000</div>
+            <div style="display:flex;align-items:center;gap:10px;margin-top:0.8rem;flex-wrap:wrap">
+              <input type="number" id="budget-total-input" placeholder="Set budget..." style="background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.3);color:#fff;border-radius:var(--r-sm);padding:0.45rem 0.8rem;font-size:0.85rem;outline:none;width:150px" />
+              <button class="btn btn-gold btn-sm" onclick="setBudgetTotal()">Update</button>
+              <span style="font-size:0.82rem;opacity:0.75" id="budget-remaining"></span>
+            </div>
+          </div>
+          <div class="progress-bar" style="margin-bottom:1.4rem;height:12px"><div class="progress-fill" id="budget-bar" style="width:0%"></div></div>
+          <div class="budget-items-list" id="budget-list"></div>
+        </div>
+
+        <!-- WISHLIST -->
+        <div class="dash-panel" id="panel-wishlist">
+          <div class="dash-panel-header"><h2>My Saved Vendors</h2></div>
+          <div id="wishlist-body"></div>
+        </div>
+
+        <!-- INQUIRIES -->
+        <div class="dash-panel" id="panel-inquiries">
+          <div class="dash-panel-header"><h2>My Inquiries</h2></div>
+          <div class="dash-section">
+            <div class="dash-section-body" id="inquiries-body"></div>
+          </div>
+        </div>
+
+      </main>
+    </div>
+  </div>
+
+  <div id="footer-root"></div>
+</div>
+
+<script src="js/data.js"></script>
+<script src="js/app.js"></script>
+<script>
+  // Auth guard
+  if (!Auth.isLoggedIn()) {
+    window.location.href = 'auth.html?redirect=dashboard.html';
+  } else if (Auth.getCurrentUser().type === 'vendor') {
+    window.location.href = 'vendor-dashboard.html';
+  }
+
+  const user = Auth.getCurrentUser();
+
+  // Panel navigation
+  function showPanel(id, btn) {
+    document.querySelectorAll('.dash-panel').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.dash-nav-item').forEach(b => b.classList.remove('active'));
+    document.getElementById('panel-' + id).classList.add('active');
+    if (btn) btn.classList.add('active');
+    else {
+      // find matching nav button
+      document.querySelectorAll('.dash-nav-item').forEach(b => {
+        if (b.textContent.toLowerCase().includes(id)) b.classList.add('active');
+      });
+    }
+    if (id === 'checklist')  renderChecklist();
+    if (id === 'budget')     renderBudget();
+    if (id === 'wishlist')   renderWishlist();
+    if (id === 'inquiries')  renderInquiries();
+  }
+
+  // ─── Init user info ───
+  document.getElementById('user-avatar').textContent = user.name.charAt(0).toUpperCase();
+  document.getElementById('user-name').textContent   = user.name;
+  document.getElementById('user-type').textContent   = '👫 Couple';
+  document.getElementById('dash-greeting').textContent = 'مرحباً, ' + user.name.split(' ')[0] + '! ✦';
+
+  // ─── Countdown ───
+  function saveWeddingDate() {
+    const d = document.getElementById('wedding-date-input').value;
+    WeddingDate.set(d);
+    updateCountdown();
+  }
+  function updateCountdown() {
+    const d = WeddingDate.get();
+    if (d) document.getElementById('wedding-date-input').value = d;
+    const days = WeddingDate.daysUntil();
+    const numEl = document.getElementById('countdown-num');
+    const lblEl = document.getElementById('countdown-lbl');
+    if (days === null) { numEl.textContent = '—'; lblEl.textContent = 'Set your wedding date →'; return; }
+    if (days < 0) { numEl.textContent = '🎊'; lblEl.textContent = 'Mabrook! Congratulations! مبروك'; return; }
+    if (days === 0) { numEl.textContent = '🎊'; lblEl.textContent = 'Today is your big day! مبروك'; return; }
+    numEl.textContent = days;
+    lblEl.textContent = 'days until your wedding ✦';
+  }
+  updateCountdown();
+
+  // ─── Overview stats ───
+  function updateOverviewStats() {
+    const items = Checklist.get();
+    const done  = items.filter(i => i.done).length;
+    const total = items.length;
+    const pct   = Math.round((done/total)*100);
+    document.getElementById('stat-done').textContent    = done;
+    document.getElementById('stat-saved').textContent   = Wishlist.get().length;
+    document.getElementById('stat-inq').textContent     = Inquiries.getForUser(user.id).length;
+    document.getElementById('stat-budget').textContent  = formatCurrency(Budget.getSpent());
+    document.getElementById('prog-label').textContent   = `${done} of ${total} completed`;
+    document.getElementById('prog-pct').textContent     = pct + '%';
+    document.getElementById('prog-fill').style.width    = pct + '%';
+
+    // Overview wishlist preview
+    const wl = Wishlist.getVendors().slice(0,4);
+    const owEl = document.getElementById('overview-wishlist');
+    if (wl.length === 0) {
+      owEl.innerHTML = `<div class="empty-state" style="padding:1.5rem"><div style="font-size:2rem">🤍</div><p style="margin:0.5rem 0 1rem;font-size:0.85rem">No vendors saved yet.</p><a href="vendors.html" class="btn btn-primary btn-sm">Browse Vendors</a></div>`;
+    } else {
+      owEl.innerHTML = `<div class="wishlist-grid">${wl.map(v=>`
+        <div class="wishlist-vendor-card" onclick="window.location='vendor.html?id=${v.id}'">
+          <div class="wl-emoji">${v.emoji}</div>
+          <div class="wl-info"><div class="wl-name">${escHtml(v.name)}</div><div class="wl-cat">${escHtml(v.category)} · ${escHtml(v.city)}</div></div>
+        </div>`).join('')}</div>`;
+    }
+  }
+  updateOverviewStats();
+
+  // ─── Checklist ───
+  function renderChecklist() {
+    const items = Checklist.get();
+    const sections = [...new Set(items.map(i => i.section))];
+    document.getElementById('checklist-body').innerHTML = sections.map(sec => {
+      const secItems = items.filter(i => i.section === sec);
+      return `<div class="dash-section"><div class="dash-section-header"><h3>📅 ${escHtml(sec)}</h3><span class="badge badge-crimson">${secItems.filter(i=>i.done).length}/${secItems.length}</span></div>
+        <div class="dash-section-body">${secItems.map(item => `
+          <div class="checklist-item">
+            <div class="check-box ${item.done ? 'checked' : ''}" onclick="toggleCheck('${item.id}')">
+              ${item.done ? '✓' : ''}
+            </div>
+            <span class="check-text ${item.done ? 'done' : ''}">${escHtml(item.text)}</span>
+          </div>`).join('')}
+        </div></div>`;
+    }).join('');
+  }
+  function toggleCheck(id) {
+    Checklist.toggle(id);
+    renderChecklist();
+    updateOverviewStats();
+  }
+  function resetChecklist() {
+    if (!confirm('Reset all checklist items?')) return;
+    const fresh = JSON.parse(JSON.stringify(CHECKLIST_ITEMS));
+    Checklist.save(fresh);
+    renderChecklist();
+    updateOverviewStats();
+  }
+
+  // ─── Budget ───
+  function renderBudget() {
+    const b = Budget.get();
+    const spent = Budget.getSpent();
+    const pct   = b.total > 0 ? Math.min(100, Math.round((spent/b.total)*100)) : 0;
+    const remaining = b.total - spent;
+
+    document.getElementById('budget-total-display').textContent = formatCurrency(b.total);
+    document.getElementById('budget-total-input').value = b.total;
+    document.getElementById('budget-bar').style.width = pct + '%';
+    document.getElementById('budget-remaining').textContent = remaining >= 0
+      ? `${formatCurrency(remaining)} remaining (${100-pct}%)`
+      : `Over budget by ${formatCurrency(Math.abs(remaining))}!`;
+
+    document.getElementById('budget-list').innerHTML = b.categories.map(cat => `
+      <div class="budget-item-row">
+        <span class="budget-item-icon">${cat.icon}</span>
+        <span class="budget-item-name">${escHtml(cat.name)}</span>
+        <input type="number" value="${cat.amount}" min="0" style="width:100px;border:1.5px solid var(--border);border-radius:var(--r-sm);padding:0.38rem 0.6rem;font-size:0.85rem;outline:none;text-align:right" onchange="updateBudgetCat('${cat.id}',this.value)" />
+      </div>
+    `).join('');
+  }
+  function setBudgetTotal() {
+    const v = parseFloat(document.getElementById('budget-total-input').value) || 0;
+    Budget.setTotal(v);
+    renderBudget();
+    updateOverviewStats();
+  }
+  function updateBudgetCat(id, val) {
+    Budget.updateCategory(id, parseFloat(val) || 0);
+    renderBudget();
+    updateOverviewStats();
+  }
+
+  // ─── Wishlist ───
+  function renderWishlist() {
+    const vendors = Wishlist.getVendors();
+    const el = document.getElementById('wishlist-body');
+    if (vendors.length === 0) {
+      el.innerHTML = `<div class="empty-state"><div class="empty-icon">🤍</div><h3>No vendors saved yet</h3><p>Browse vendors and click 🤍 to save them here.</p><a href="vendors.html" class="btn btn-primary">Browse Vendors</a></div>`;
+      return;
+    }
+    el.innerHTML = `<div class="wishlist-grid">${vendors.map(v=>`
+      <div class="wishlist-vendor-card" onclick="window.location='vendor.html?id=${v.id}'">
+        <div class="wl-emoji">${v.emoji}</div>
+        <div class="wl-info">
+          <div class="wl-name">${escHtml(v.name)}</div>
+          <div class="wl-cat">${escHtml(v.category)} · ${escHtml(v.city)}</div>
+          <div style="font-size:0.72rem;color:var(--gold);margin-top:2px">From ${formatCurrency(v.price)}</div>
+        </div>
+        <button class="wl-remove" onclick="event.stopPropagation();removeFromWishlist(${v.id})" title="Remove">✕</button>
+      </div>`).join('')}</div>`;
+  }
+  function removeFromWishlist(id) {
+    Wishlist.toggle(id);
+    renderWishlist();
+    updateOverviewStats();
+    showToast('Removed from wishlist', 'info');
+  }
+
+  // ─── Inquiries ───
+  function renderInquiries() {
+    const inqs = Inquiries.getForUser(user.id);
+    const el   = document.getElementById('inquiries-body');
+    if (inqs.length === 0) {
+      el.innerHTML = `<div class="empty-state"><div class="empty-icon">📩</div><h3>No inquiries yet</h3><p>Send inquiries to vendors from their profile pages.</p><a href="vendors.html" class="btn btn-primary">Find Vendors</a></div>`;
+      return;
+    }
+    el.innerHTML = inqs.reverse().map(inq => {
+      const v = VENDORS.find(vv => vv.id === inq.vendorId);
+      if (!v) return '';
+      return `<div class="inq-row">
+        <div class="inq-vendor-emoji">${v.emoji}</div>
+        <div class="inq-info">
+          <div class="inq-vendor-name">${escHtml(v.name)}</div>
+          <div class="inq-msg">${escHtml(inq.message)}</div>
+          <div style="font-size:0.72rem;color:var(--muted);margin-top:2px">${inq.date ? 'Wedding date: ' + escHtml(inq.date) : ''} · Sent ${new Date(inq.createdAt).toLocaleDateString()}</div>
+        </div>
+        <span class="inq-status pending">Pending</span>
+        <button class="btn btn-ghost btn-sm" onclick="window.location='vendor.html?id=${v.id}'">View</button>
+      </div>`;
+    }).join('');
+  }
+</script>
+</body>
+</html>

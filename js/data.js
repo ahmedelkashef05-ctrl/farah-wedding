@@ -500,6 +500,23 @@ const WeddingDate = {
 };
 
 /* ─────────────────────────────────────
+   AVAILABILITY
+───────────────────────────────────── */
+const Availability = {
+  _key: (vendorId) => `avail_${vendorId}`,
+  get(vendorId)   { return Storage.get(this._key(vendorId), {}); },
+  getStatus(vendorId, dateStr) { return this.get(vendorId)[dateStr] || 'available'; },
+  toggle(vendorId, dateStr) {
+    const data = this.get(vendorId);
+    if (data[dateStr] === 'booked') { delete data[dateStr]; }
+    else { data[dateStr] = 'booked'; }
+    Storage.set(this._key(vendorId), data);
+    return data[dateStr] || 'available';
+  },
+  clear(vendorId) { Storage.remove(this._key(vendorId)); }
+};
+
+/* ─────────────────────────────────────
    UTILITIES
 ───────────────────────────────────── */
 function formatCurrency(n) { return '$' + Number(n).toLocaleString(); }

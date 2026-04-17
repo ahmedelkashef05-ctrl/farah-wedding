@@ -30,6 +30,24 @@
     .vendor-headline .arabic { font-size: 1.1rem; color: var(--muted); margin-top: 4px; }
     .vendor-meta { display: flex; flex-wrap: wrap; gap: 1rem; align-items: center; margin: 0.8rem 0; }
     .vendor-meta-item { display: flex; align-items: center; gap: 6px; font-size: 0.84rem; color: var(--muted); }
+
+    /* ── Availability Calendar ── */
+    .cal-two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    @media (max-width: 580px) { .cal-two-col { grid-template-columns: 1fr; } }
+    .cal-month { background: #fff; border: 1px solid var(--border); border-radius: var(--r-md); padding: 1rem; }
+    .cal-month-hd { display: flex; align-items: center; justify-content: center; margin-bottom: 0.8rem; }
+    .cal-month-title { font-family: 'Playfair Display', serif; font-size: 0.9rem; font-weight: 600; color: var(--text); text-align: center; }
+    .cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 2px; }
+    .cal-lbl { text-align: center; font-size: 0.6rem; font-weight: 700; color: var(--muted); text-transform: uppercase; padding: 4px 0 5px; }
+    .cal-cell { aspect-ratio: 1; display: flex; align-items: center; justify-content: center; border-radius: 5px; font-size: 0.75rem; }
+    .cal-avail { background: rgba(0,122,61,0.09); color: var(--text); cursor: pointer; border: 1px solid rgba(0,122,61,0.2); }
+    .cal-avail:hover { background: rgba(0,122,61,0.2); }
+    .cal-booked { background: rgba(139,26,26,0.1); color: var(--crimson); text-decoration: line-through; cursor: not-allowed; }
+    .cal-past { color: #d0d0d0; }
+    .cal-sel { background: var(--crimson) !important; color: #fff !important; border-color: var(--crimson) !important; }
+    .cal-legend { display: flex; gap: 1.2rem; margin-top: 0.8rem; flex-wrap: wrap; }
+    .cal-leg-item { display: flex; align-items: center; gap: 5px; font-size: 0.72rem; color: var(--muted); }
+    .cal-leg-dot { width: 11px; height: 11px; border-radius: 3px; flex-shrink: 0; }
   </style>
 </head>
 <body>
@@ -128,6 +146,13 @@
             <div class="vendor-services-grid">
               ${vendor.services.map(s=>`<div class="service-item">${escHtml(s)}</div>`).join('')}
             </div>
+          </div>
+
+          <!-- Availability Calendar -->
+          <div style="margin-bottom:2rem">
+            <div class="section-title">Availability</div>
+            <p style="font-size:0.84rem;color:var(--muted);margin-bottom:0.9rem">Click an available date to pre-fill your inquiry. Dates shown in red are already booked.</p>
+            <div id="vendor-cal"></div>
           </div>
 
           <!-- Reviews -->
@@ -231,6 +256,19 @@
       </div>
     `;
   }
+
+  // Calendar date pick — fills inquiry form
+  let _calSelected = '';
+  function calPickDate(dateStr) {
+    _calSelected = dateStr;
+    document.getElementById('inq-date').value = dateStr;
+    renderAvailCalendar(vendor.id, 'vendor-cal', dateStr);
+    document.getElementById('inq-date').scrollIntoView({ behavior: 'smooth', block: 'center' });
+    showToast('Date selected: ' + dateStr, 'success');
+  }
+
+  // Initial calendar render (after DOM is built)
+  setTimeout(() => renderAvailCalendar(vendor.id, 'vendor-cal', ''), 0);
 
   function toggleDetailWishlist(btn) {
     if (!vendor) return;

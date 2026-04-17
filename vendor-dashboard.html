@@ -39,6 +39,24 @@
     .profile-field-value { font-size: 0.88rem; color: var(--text); flex: 1; }
     .profile-field-value input { width: 100%; border: 1.5px solid var(--border); border-radius: var(--r-sm); padding: 0.4rem 0.8rem; font-size: 0.85rem; outline: none; font-family: 'Inter', sans-serif; }
     .profile-field-value input:focus { border-color: var(--crimson); }
+
+    /* ── Availability Calendar ── */
+    .cal-month { background: var(--cream); border: 1px solid var(--border); border-radius: var(--r-md); padding: 1.2rem; max-width: 380px; }
+    .cal-month-hd { display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.9rem; }
+    .cal-month-title { font-family: 'Playfair Display', serif; font-size: 1rem; font-weight: 600; color: var(--text); }
+    .cal-nav-btn { background: none; border: 1.5px solid var(--border); border-radius: 6px; width: 28px; height: 28px; cursor: pointer; font-size: 1.1rem; display: flex; align-items: center; justify-content: center; color: var(--muted); transition: all 0.15s; }
+    .cal-nav-btn:hover { border-color: var(--crimson); color: var(--crimson); }
+    .cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 3px; }
+    .cal-lbl { text-align: center; font-size: 0.6rem; font-weight: 700; color: var(--muted); text-transform: uppercase; padding: 4px 0 6px; }
+    .cal-cell { aspect-ratio: 1; display: flex; align-items: center; justify-content: center; border-radius: 5px; font-size: 0.78rem; transition: all 0.12s; }
+    .cal-avail { background: rgba(0,122,61,0.1); color: var(--text); cursor: pointer; border: 1px solid rgba(0,122,61,0.25); }
+    .cal-avail:hover { background: rgba(0,122,61,0.22); }
+    .cal-booked { background: rgba(139,26,26,0.12); color: var(--crimson); cursor: pointer; border: 1px solid rgba(139,26,26,0.2); text-decoration: line-through; }
+    .cal-booked:hover { background: rgba(139,26,26,0.22); }
+    .cal-past { color: #ccc; cursor: default; }
+    .cal-legend { display: flex; gap: 1.2rem; margin-top: 1rem; flex-wrap: wrap; }
+    .cal-leg-item { display: flex; align-items: center; gap: 5px; font-size: 0.75rem; color: var(--muted); }
+    .cal-leg-dot { width: 12px; height: 12px; border-radius: 3px; flex-shrink: 0; }
   </style>
 </head>
 <body>
@@ -70,6 +88,7 @@
             <button class="dash-nav-item active" onclick="showPanel('overview',this)"><span class="icon">📊</span> Overview</button>
             <button class="dash-nav-item" onclick="showPanel('inquiries',this)"><span class="icon">📩</span> Inquiries <span id="inq-badge" style="display:none;background:var(--crimson);color:#fff;font-size:0.65rem;padding:2px 7px;border-radius:20px;margin-left:auto"></span></button>
             <button class="dash-nav-item" onclick="showPanel('profile',this)"><span class="icon">✏️</span> Edit Profile</button>
+            <button class="dash-nav-item" onclick="showPanel('availability',this)"><span class="icon">📅</span> Availability</button>
             <button class="dash-nav-item" onclick="showPanel('tips',this)"><span class="icon">💡</span> Growth Tips</button>
             <div style="height:1px;background:var(--border);margin:0.4rem 0.5rem"></div>
             <button class="dash-nav-item" onclick="window.location='vendors.html'"><span class="icon">👁️</span> View as Guest</button>
@@ -159,6 +178,26 @@
           <button class="btn btn-primary" onclick="saveProfile()">Save Changes</button>
         </div>
 
+        <!-- AVAILABILITY -->
+        <div class="dash-panel" id="panel-availability">
+          <div class="dash-panel-header"><h2>Manage Availability</h2></div>
+          <div class="dash-section">
+            <div class="dash-section-header">
+              <h3>📅 Your Calendar</h3>
+              <button class="btn btn-ghost btn-sm" onclick="clearAllAvail()">Clear All</button>
+            </div>
+            <div class="dash-section-body">
+              <p style="font-size:0.84rem;color:var(--muted);margin-bottom:1.2rem">Click any date to toggle between <strong style="color:#007a3d">available</strong> and <strong style="color:var(--crimson)">booked</strong>. Couples see this calendar in real time when viewing your profile.</p>
+              <div id="dash-cal-wrap"></div>
+              <div class="cal-legend" style="margin-top:1rem">
+                <span class="cal-leg-item"><span class="cal-leg-dot" style="background:rgba(0,122,61,0.12);border:1px solid rgba(0,122,61,0.3)"></span> Available — click to book</span>
+                <span class="cal-leg-item"><span class="cal-leg-dot" style="background:rgba(139,26,26,0.14)"></span> Booked — click to unbook</span>
+                <span class="cal-leg-item"><span class="cal-leg-dot" style="background:#eee"></span> Past</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
         <!-- TIPS -->
         <div class="dash-panel" id="panel-tips">
           <div class="dash-panel-header"><h2>Growth Tips</h2></div>
@@ -202,8 +241,20 @@
     document.querySelectorAll('.dash-nav-item').forEach(b => b.classList.remove('active'));
     document.getElementById('panel-' + id).classList.add('active');
     if (btn) btn.classList.add('active');
-    if (id === 'inquiries') renderAllInquiries();
-    if (id === 'profile')   loadProfileFields();
+    if (id === 'inquiries')    renderAllInquiries();
+    if (id === 'profile')      loadProfileFields();
+    if (id === 'availability') initDashCal();
+  }
+
+  // Availability calendar
+  // Use vendor ID from URL param, or fallback to user.id for demo
+  const _dashVendorId = parseInt(new URLSearchParams(window.location.search).get('vendorId')) || user.id;
+  function initDashCal() { renderDashCalendar(_dashVendorId); }
+  function clearAllAvail() {
+    if (!confirm('Clear all booked dates and reset to fully available?')) return;
+    Availability.clear(_dashVendorId);
+    initDashCal();
+    showToast('Calendar reset — all dates now available', 'success');
   }
 
   // Inquiries

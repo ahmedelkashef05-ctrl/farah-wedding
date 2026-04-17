@@ -431,15 +431,56 @@ const Wishlist = {
    INQUIRIES / BOOKINGS
 ───────────────────────────────────── */
 const Inquiries = {
-  getAll()    { return Storage.get('inquiries', []); },
-  getForUser(userId) { return this.getAll().filter(i => i.userId === userId); },
-  getForVendor(vendorId) { return this.getAll().filter(i => i.vendorId === vendorId); },
+  getAll()              { return Storage.get('inquiries', []); },
+  getForUser(userId)    { return this.getAll().filter(i => i.userId === userId); },
+  getForVendor(vendorId){ return this.getAll().filter(i => i.vendorId === vendorId); },
   add(vendorId, message, date, userId, userName) {
     const all = this.getAll();
-    const inq = { id: Date.now(), vendorId, userId, userName, message, date, status: 'pending', createdAt: new Date().toISOString() };
+    const inq = {
+      id: Date.now(), vendorId, userId, userName, message, date,
+      crmStatus: 'new', notes: '',
+      createdAt: new Date().toISOString(), updatedAt: new Date().toISOString()
+    };
     all.push(inq);
     Storage.set('inquiries', all);
     return inq;
+  },
+  updateCrmStatus(id, status) {
+    const all = this.getAll();
+    const inq = all.find(i => i.id === id);
+    if (inq) { inq.crmStatus = status; inq.updatedAt = new Date().toISOString(); Storage.set('inquiries', all); }
+  },
+  updateNotes(id, notes) {
+    const all = this.getAll();
+    const inq = all.find(i => i.id === id);
+    if (inq) { inq.notes = notes; inq.updatedAt = new Date().toISOString(); Storage.set('inquiries', all); }
+  },
+  delete(id) {
+    const all = this.getAll().filter(i => i.id !== id);
+    Storage.set('inquiries', all);
+  }
+};
+
+/* ─────────────────────────────────────
+   BROWSER NOTIFICATIONS
+───────────────────────────────────── */
+const Notif = {
+  supported() { return 'Notification' in window; },
+  granted()   { return this.supported() && Notification.permission === 'granted'; },
+  async requestPermission() {
+    if (!this.supported()) return false;
+    const p = await Notification.requestPermission();
+    return p === 'granted';
+  },
+  send(title, body) {
+    if (!this.granted()) return;
+    const n = new Notification(title, {
+      body,
+      icon: 'https://em-content.zobj.net/source/google/387/wedding-1f492.png',
+      badge: 'https://em-content.zobj.net/source/google/387/bell-1f514.png',
+      tag: 'farah-inquiry'
+    });
+    n.onclick = () => { window.focus(); n.close(); };
   }
 };
 

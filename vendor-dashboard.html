@@ -40,6 +40,54 @@
     .profile-field-value input { width: 100%; border: 1.5px solid var(--border); border-radius: var(--r-sm); padding: 0.4rem 0.8rem; font-size: 0.85rem; outline: none; font-family: 'Inter', sans-serif; }
     .profile-field-value input:focus { border-color: var(--crimson); }
 
+    /* ── CRM ── */
+    .crm-pipeline { display: grid; grid-template-columns: repeat(4,1fr); gap: 0.8rem; margin-bottom: 1.4rem; }
+    @media(max-width:640px){ .crm-pipeline { grid-template-columns: repeat(2,1fr); } }
+    .crm-pipe-card { background:#fff; border:1.5px solid var(--border); border-radius:var(--r-md); padding:1rem 1.2rem; cursor:pointer; transition:all 0.18s; text-align:center; }
+    .crm-pipe-card:hover, .crm-pipe-card.active { border-color:var(--crimson); box-shadow:0 2px 12px rgba(139,26,26,0.12); }
+    .crm-pipe-num { font-family:'Cinzel Decorative',serif; font-size:1.8rem; line-height:1; }
+    .crm-pipe-lbl { font-size:0.72rem; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; color:var(--muted); margin-top:4px; }
+    .crm-pipe-bar { height:3px; border-radius:2px; margin-top:8px; }
+    .crm-toolbar { display:flex; gap:0.8rem; align-items:center; flex-wrap:wrap; margin-bottom:1.2rem; }
+    .crm-toolbar input { flex:1; min-width:180px; }
+    .crm-chips { display:flex; gap:0.4rem; flex-wrap:wrap; }
+    .crm-chip { background:none; border:1.5px solid var(--border); border-radius:20px; padding:0.28rem 0.85rem; font-size:0.78rem; cursor:pointer; color:var(--muted); font-weight:600; transition:all 0.15s; white-space:nowrap; }
+    .crm-chip.active, .crm-chip:hover { border-color:var(--crimson); color:var(--crimson); background:rgba(139,26,26,0.05); }
+    .crm-lead-list { display:flex; flex-direction:column; gap:0.7rem; }
+    .crm-lead { background:#fff; border:1.5px solid var(--border); border-radius:var(--r-md); overflow:hidden; transition:box-shadow 0.15s; }
+    .crm-lead:hover { box-shadow:0 3px 14px rgba(0,0,0,0.08); }
+    .crm-lead-row { display:flex; align-items:center; gap:1rem; padding:1rem 1.2rem; cursor:pointer; }
+    .crm-avatar { width:42px; height:42px; border-radius:50%; background:linear-gradient(135deg,var(--crimson),var(--gold)); display:flex; align-items:center; justify-content:center; color:#fff; font-weight:700; font-size:1.1rem; flex-shrink:0; }
+    .crm-lead-info { flex:1; min-width:0; }
+    .crm-lead-name { font-weight:700; font-size:0.9rem; color:var(--text); }
+    .crm-lead-meta { font-size:0.76rem; color:var(--muted); margin-top:2px; display:flex; gap:0.7rem; flex-wrap:wrap; }
+    .crm-lead-preview { font-size:0.8rem; color:var(--muted); margin-top:4px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; max-width:340px; }
+    .crm-status-badge { font-size:0.68rem; font-weight:700; letter-spacing:0.06em; text-transform:uppercase; padding:3px 10px; border-radius:20px; flex-shrink:0; white-space:nowrap; }
+    .crm-status-new       { background:rgba(201,168,76,0.15); color:#a07800; }
+    .crm-status-contacted { background:rgba(30,100,200,0.12); color:#1a5fb4; }
+    .crm-status-booked    { background:rgba(139,26,26,0.12); color:var(--crimson); }
+    .crm-status-completed { background:rgba(0,122,61,0.12); color:#007a3d; }
+    .crm-status-lost      { background:rgba(0,0,0,0.07); color:#888; }
+    .crm-lead-detail { display:none; border-top:1px solid var(--border); padding:1.2rem; background:var(--cream); }
+    .crm-lead-detail.open { display:block; }
+    .crm-detail-msg { font-size:0.86rem; color:var(--text); line-height:1.7; background:#fff; border:1px solid var(--border); border-radius:var(--r-sm); padding:0.9rem 1rem; margin-bottom:1rem; }
+    .crm-stage-row { display:flex; gap:0.5rem; flex-wrap:wrap; margin-bottom:1rem; }
+    .crm-stage-btn { border:1.5px solid var(--border); border-radius:var(--r-sm); padding:0.38rem 0.9rem; font-size:0.78rem; font-weight:700; cursor:pointer; background:#fff; color:var(--muted); transition:all 0.15s; }
+    .crm-stage-btn.active { color:#fff; border-color:transparent; }
+    .crm-stage-btn[data-s="new"].active       { background:#c9a84c; }
+    .crm-stage-btn[data-s="contacted"].active { background:#1a5fb4; }
+    .crm-stage-btn[data-s="booked"].active    { background:var(--crimson); }
+    .crm-stage-btn[data-s="completed"].active { background:#007a3d; }
+    .crm-stage-btn[data-s="lost"].active      { background:#888; }
+    .crm-notes { width:100%; border:1.5px solid var(--border); border-radius:var(--r-sm); padding:0.7rem 0.9rem; font-size:0.84rem; font-family:'Inter',sans-serif; resize:vertical; min-height:70px; outline:none; transition:border-color 0.15s; }
+    .crm-notes:focus { border-color:var(--crimson); }
+    .crm-del-btn { float:right; font-size:0.75rem; color:var(--muted); background:none; border:none; cursor:pointer; padding:0; }
+    .crm-del-btn:hover { color:var(--crimson); }
+    .notif-status { font-size:0.78rem; color:var(--muted); display:flex; align-items:center; gap:6px; }
+    .notif-dot { width:8px; height:8px; border-radius:50%; background:#ccc; flex-shrink:0; }
+    .notif-dot.granted { background:#007a3d; }
+    .notif-dot.denied  { background:var(--crimson); }
+
     /* ── Availability Calendar ── */
     .cal-month { background: var(--cream); border: 1px solid var(--border); border-radius: var(--r-md); padding: 1.2rem; max-width: 380px; }
     .cal-month-hd { display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.9rem; }
@@ -86,7 +134,7 @@
           </div>
           <div style="border-top:1px solid var(--border);padding:0.6rem">
             <button class="dash-nav-item active" onclick="showPanel('overview',this)"><span class="icon">📊</span> Overview</button>
-            <button class="dash-nav-item" onclick="showPanel('inquiries',this)"><span class="icon">📩</span> Inquiries <span id="inq-badge" style="display:none;background:var(--crimson);color:#fff;font-size:0.65rem;padding:2px 7px;border-radius:20px;margin-left:auto"></span></button>
+            <button class="dash-nav-item" onclick="showPanel('crm',this)"><span class="icon">🗂️</span> CRM <span id="inq-badge" style="display:none;background:var(--crimson);color:#fff;font-size:0.65rem;padding:2px 7px;border-radius:20px;margin-left:auto"></span></button>
             <button class="dash-nav-item" onclick="showPanel('profile',this)"><span class="icon">✏️</span> Edit Profile</button>
             <button class="dash-nav-item" onclick="showPanel('availability',this)"><span class="icon">📅</span> Availability</button>
             <button class="dash-nav-item" onclick="showPanel('tips',this)"><span class="icon">💡</span> Growth Tips</button>
@@ -127,8 +175,8 @@
           <!-- Recent Inquiries Preview -->
           <div class="dash-section">
             <div class="dash-section-header">
-              <h3>📩 Recent Inquiries</h3>
-              <button class="btn btn-ghost btn-sm" onclick="showPanel('inquiries',null)">View All</button>
+              <h3>📩 Recent Leads</h3>
+              <button class="btn btn-ghost btn-sm" onclick="showPanel('crm',document.querySelector('[onclick*=crm]'))">Open CRM</button>
             </div>
             <div class="dash-section-body" id="recent-inq-body"></div>
           </div>
@@ -146,12 +194,37 @@
           </div>
         </div>
 
-        <!-- INQUIRIES -->
-        <div class="dash-panel" id="panel-inquiries">
-          <div class="dash-panel-header"><h2>All Inquiries</h2></div>
-          <div class="dash-section">
-            <div class="dash-section-body" id="all-inq-body"></div>
+        <!-- CRM -->
+        <div class="dash-panel" id="panel-crm">
+          <div class="dash-panel-header" style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:0.8rem">
+            <h2 style="margin:0">Lead CRM</h2>
+            <div style="display:flex;align-items:center;gap:0.8rem;flex-wrap:wrap">
+              <div class="notif-status">
+                <div class="notif-dot" id="notif-dot"></div>
+                <span id="notif-lbl">Notifications off</span>
+              </div>
+              <button id="notif-btn" class="btn btn-ghost btn-sm" onclick="crmEnableNotif()">🔔 Enable Notifications</button>
+            </div>
           </div>
+
+          <!-- Pipeline stats -->
+          <div class="crm-pipeline" id="crm-pipeline"></div>
+
+          <!-- Toolbar -->
+          <div class="crm-toolbar">
+            <input class="form-input" type="text" id="crm-search" placeholder="Search by name or message…" oninput="crmRender()" style="flex:1;min-width:180px" />
+            <div class="crm-chips">
+              <button class="crm-chip active" data-f="" onclick="crmSetFilter('',this)">All</button>
+              <button class="crm-chip" data-f="new" onclick="crmSetFilter('new',this)">New</button>
+              <button class="crm-chip" data-f="contacted" onclick="crmSetFilter('contacted',this)">Contacted</button>
+              <button class="crm-chip" data-f="booked" onclick="crmSetFilter('booked',this)">Booked</button>
+              <button class="crm-chip" data-f="completed" onclick="crmSetFilter('completed',this)">Completed</button>
+              <button class="crm-chip" data-f="lost" onclick="crmSetFilter('lost',this)">Lost</button>
+            </div>
+          </div>
+
+          <!-- Lead list -->
+          <div class="crm-lead-list" id="crm-leads"></div>
         </div>
 
         <!-- PROFILE EDIT -->
@@ -219,7 +292,7 @@
 <script src="js/data.js"></script>
 <script src="js/app.js"></script>
 <script>
-  // Auth guard
+  // ── Auth guard ──
   if (!Auth.isLoggedIn()) {
     window.location.href = 'auth.html?redirect=vendor-dashboard.html';
   } else if (Auth.getCurrentUser().type === 'couple') {
@@ -227,78 +300,230 @@
   }
 
   const user = Auth.getCurrentUser();
-
-  // Populate user info
   document.getElementById('vendor-avatar').textContent = user.name.charAt(0).toUpperCase();
   document.getElementById('vendor-name').textContent   = user.name;
   document.getElementById('pb-avatar').textContent     = user.name.charAt(0).toUpperCase();
   document.getElementById('pb-name').textContent       = user.name;
   document.getElementById('pb-joined').textContent     = new Date(user.createdAt).toLocaleDateString('en', {month:'short',year:'numeric'});
 
-  // Panel navigation
+  // ── Panel navigation ──
   function showPanel(id, btn) {
     document.querySelectorAll('.dash-panel').forEach(p => p.classList.remove('active'));
     document.querySelectorAll('.dash-nav-item').forEach(b => b.classList.remove('active'));
     document.getElementById('panel-' + id).classList.add('active');
     if (btn) btn.classList.add('active');
-    if (id === 'inquiries')    renderAllInquiries();
+    if (id === 'crm')          { crmRender(); crmRefreshNotifUI(); }
     if (id === 'profile')      loadProfileFields();
     if (id === 'availability') initDashCal();
   }
 
-  // Availability calendar
-  // Use vendor ID from URL param, or fallback to user.id for demo
-  const _dashVendorId = parseInt(new URLSearchParams(window.location.search).get('vendorId')) || user.id;
-  function initDashCal() { renderDashCalendar(_dashVendorId); }
-  function clearAllAvail() {
-    if (!confirm('Clear all booked dates and reset to fully available?')) return;
-    Availability.clear(_dashVendorId);
-    initDashCal();
-    showToast('Calendar reset — all dates now available', 'success');
+  // ══════════════════════════════
+  //  CRM
+  // ══════════════════════════════
+  const CRM_STAGES = [
+    { key:'new',       label:'New',       color:'#c9a84c' },
+    { key:'contacted', label:'Contacted', color:'#1a5fb4' },
+    { key:'booked',    label:'Booked',    color:'#8b1a1a' },
+    { key:'completed', label:'Completed', color:'#007a3d' },
+    { key:'lost',      label:'Lost',      color:'#888'    },
+  ];
+  let _crmFilter = '';
+
+  function crmLeads() { return Inquiries.getAll().slice().reverse(); }
+
+  function crmSetFilter(f, btn) {
+    _crmFilter = f;
+    document.querySelectorAll('.crm-chip').forEach(c => c.classList.toggle('active', c.dataset.f === f));
+    crmRender();
   }
 
-  // Inquiries
-  function getInquiries() { return Inquiries.getAll(); } // all for demo (no vendor ID matching)
-
-  function renderInqRow(inq) {
-    const initials = inq.userName ? inq.userName.charAt(0).toUpperCase() : '?';
-    return `<div class="inq-row">
-      <div class="inq-avatar">${initials}</div>
-      <div class="inq-info">
-        <div class="inq-sender">${escHtml(inq.userName || 'Anonymous')}</div>
-        <div class="inq-msg-text">${escHtml(inq.message)}</div>
-        <div class="inq-date">${inq.date ? 'Wedding date: ' + escHtml(inq.date) + ' · ' : ''}Received ${new Date(inq.createdAt).toLocaleDateString()}</div>
-      </div>
-      <div class="inq-actions">
-        <span class="badge badge-crimson">New</span>
-      </div>
-    </div>`;
+  function _timeAgo(iso) {
+    const m = Math.floor((Date.now() - new Date(iso)) / 60000);
+    if (m < 1)  return 'just now';
+    if (m < 60) return m + 'm ago';
+    const h = Math.floor(m / 60);
+    if (h < 24) return h + 'h ago';
+    return Math.floor(h / 24) + 'd ago';
   }
 
-  function renderRecentInquiries() {
-    const inqs = getInquiries().slice(-3).reverse();
-    const el = document.getElementById('recent-inq-body');
-    if (inqs.length === 0) {
-      el.innerHTML = `<div class="empty-state" style="padding:1.5rem"><div style="font-size:2rem">📩</div><p style="font-size:0.85rem;margin-top:0.5rem">No inquiries yet. Complete your profile to attract couples.</p></div>`;
+  function _statusBadge(s) {
+    const cls = { new:'crm-status-new', contacted:'crm-status-contacted', booked:'crm-status-booked', completed:'crm-status-completed', lost:'crm-status-lost' };
+    return `<span class="crm-status-badge ${cls[s]||'crm-status-new'}">${s||'new'}</span>`;
+  }
+
+  function crmRender() {
+    const q = (document.getElementById('crm-search')?.value || '').toLowerCase();
+    const all = crmLeads();
+
+    // Pipeline stats
+    const counts = {};
+    CRM_STAGES.forEach(s => counts[s.key] = 0);
+    all.forEach(l => { const s = l.crmStatus || 'new'; counts[s] = (counts[s]||0) + 1; });
+    document.getElementById('crm-pipeline').innerHTML = CRM_STAGES.slice(0, 4).map(s => `
+      <div class="crm-pipe-card${_crmFilter===s.key?' active':''}" onclick="crmSetFilter('${s.key}',null)">
+        <div class="crm-pipe-num" style="color:${s.color}">${counts[s.key]||0}</div>
+        <div class="crm-pipe-lbl">${s.label}</div>
+        <div class="crm-pipe-bar" style="background:${s.color}55"></div>
+      </div>`).join('');
+
+    // Filtered list
+    let leads = _crmFilter ? all.filter(l => (l.crmStatus||'new') === _crmFilter) : all;
+    if (q) leads = leads.filter(l => (l.userName||'').toLowerCase().includes(q) || (l.message||'').toLowerCase().includes(q));
+
+    const el = document.getElementById('crm-leads');
+    if (leads.length === 0) {
+      el.innerHTML = `<div class="empty-state" style="padding:2.5rem;text-align:center">
+        <div style="font-size:2.5rem">🗂️</div>
+        <h3 style="margin:0.6rem 0 0.3rem">No leads ${_crmFilter?'in this stage':'yet'}</h3>
+        <p style="color:var(--muted);font-size:0.85rem">Leads appear here when couples send inquiries.</p>
+      </div>`;
     } else {
-      el.innerHTML = inqs.map(renderInqRow).join('');
+      el.innerHTML = leads.map(l => {
+        const init  = (l.userName||'?').charAt(0).toUpperCase();
+        const vname = VENDORS.find(v => v.id === l.vendorId)?.name || 'Unknown Vendor';
+        return `
+        <div class="crm-lead" id="lead-${l.id}">
+          <div class="crm-lead-row" onclick="crmToggle(${l.id})">
+            <div class="crm-avatar">${escHtml(init)}</div>
+            <div class="crm-lead-info">
+              <div class="crm-lead-name">${escHtml(l.userName||'Anonymous')}</div>
+              <div class="crm-lead-meta">
+                <span>📍 ${escHtml(vname)}</span>
+                ${l.date ? `<span>💒 ${escHtml(l.date)}</span>` : ''}
+                <span>🕐 ${_timeAgo(l.createdAt)}</span>
+              </div>
+              <div class="crm-lead-preview">${escHtml(l.message||'')}</div>
+            </div>
+            ${_statusBadge(l.crmStatus||'new')}
+          </div>
+          <div class="crm-lead-detail" id="detail-${l.id}">
+            <button class="crm-del-btn" onclick="crmDelete(${l.id})">✕ Remove lead</button>
+            <div style="font-size:0.72rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:0.4rem">Message</div>
+            <div class="crm-detail-msg">${escHtml(l.message||'')}</div>
+            <div style="font-size:0.72rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:0.5rem">Pipeline Stage</div>
+            <div class="crm-stage-row">
+              ${CRM_STAGES.map(s => `<button class="crm-stage-btn${(l.crmStatus||'new')===s.key?' active':''}" data-s="${s.key}" onclick="crmSetStatus(${l.id},'${s.key}')">${s.label}</button>`).join('')}
+            </div>
+            <div style="font-size:0.72rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:0.5rem">Notes</div>
+            <textarea class="crm-notes" id="notes-${l.id}" placeholder="Add private notes about this lead…" oninput="crmSaveNotes(${l.id})">${escHtml(l.notes||'')}</textarea>
+          </div>
+        </div>`;
+      }).join('');
     }
-    document.getElementById('stat-inq-count').textContent = inqs.length;
+
+    // Update badge
+    const newCount = counts.new || 0;
+    document.getElementById('stat-inq-count').textContent = all.length;
     const badge = document.getElementById('inq-badge');
-    if (inqs.length > 0) { badge.style.display = 'inline'; badge.textContent = inqs.length; }
+    if (newCount > 0) { badge.style.display='inline'; badge.textContent=newCount; }
+    else { badge.style.display='none'; }
   }
 
-  function renderAllInquiries() {
-    const inqs = getInquiries().slice().reverse();
-    const el = document.getElementById('all-inq-body');
-    if (inqs.length === 0) {
-      el.innerHTML = `<div class="empty-state"><div class="empty-icon">📩</div><h3>No inquiries yet</h3><p>Your inquiries from couples will appear here.</p></div>`;
+  function crmToggle(id) {
+    document.getElementById('detail-' + id)?.classList.toggle('open');
+  }
+
+  function crmSetStatus(id, status) {
+    Inquiries.updateCrmStatus(id, status);
+    crmRender();
+    setTimeout(() => document.getElementById('detail-' + id)?.classList.add('open'), 10);
+    showToast('Moved to ' + status, 'success');
+  }
+
+  const _noteTimers = {};
+  function crmSaveNotes(id) {
+    clearTimeout(_noteTimers[id]);
+    _noteTimers[id] = setTimeout(() => {
+      Inquiries.updateNotes(id, document.getElementById('notes-' + id)?.value || '');
+    }, 600);
+  }
+
+  function crmDelete(id) {
+    if (!confirm('Remove this lead?')) return;
+    Inquiries.delete(id);
+    crmRender();
+    showToast('Lead removed', 'info');
+  }
+
+  // ── Overview recent leads ──
+  function renderRecentInquiries() {
+    const leads = crmLeads().slice(0, 3);
+    const el = document.getElementById('recent-inq-body');
+    if (leads.length === 0) {
+      el.innerHTML = `<div class="empty-state" style="padding:1.5rem;text-align:center"><div style="font-size:2rem">📩</div><p style="font-size:0.85rem;margin-top:0.5rem">No leads yet. Share your profile to attract couples.</p></div>`;
     } else {
-      el.innerHTML = inqs.map(renderInqRow).join('');
+      el.innerHTML = leads.map(l => `
+        <div class="inq-row">
+          <div class="inq-avatar">${escHtml((l.userName||'?').charAt(0).toUpperCase())}</div>
+          <div class="inq-info">
+            <div class="inq-sender">${escHtml(l.userName||'Anonymous')}</div>
+            <div class="inq-msg-text">${escHtml((l.message||'').substring(0,100))}${(l.message||'').length>100?'…':''}</div>
+            <div class="inq-date">${l.date?'Wedding: '+escHtml(l.date)+' · ':''}${_timeAgo(l.createdAt)}</div>
+          </div>
+          ${_statusBadge(l.crmStatus||'new')}
+        </div>`).join('');
+    }
+    const newCount = crmLeads().filter(l=>(l.crmStatus||'new')==='new').length;
+    document.getElementById('stat-inq-count').textContent = crmLeads().length;
+    const badge = document.getElementById('inq-badge');
+    if (newCount > 0) { badge.style.display='inline'; badge.textContent=newCount; }
+    else { badge.style.display='none'; }
+  }
+
+  // ══════════════════════════════
+  //  PUSH NOTIFICATIONS
+  // ══════════════════════════════
+  function crmRefreshNotifUI() {
+    if (!Notif.supported()) {
+      document.getElementById('notif-lbl').textContent = 'Not supported in this browser';
+      document.getElementById('notif-btn').style.display = 'none';
+      return;
+    }
+    const p = Notification.permission;
+    const dot = document.getElementById('notif-dot');
+    const lbl = document.getElementById('notif-lbl');
+    const btn = document.getElementById('notif-btn');
+    dot.className = 'notif-dot' + (p==='granted'?' granted':p==='denied'?' denied':'');
+    if (p === 'granted') {
+      lbl.textContent = 'Notifications on';
+      btn.textContent = '🔕 Disable';
+      btn.onclick = () => showToast('To disable, go to browser Settings → Site Permissions.', 'info');
+    } else if (p === 'denied') {
+      lbl.textContent = 'Blocked by browser';
+      btn.textContent = '⚙️ Open Settings';
+      btn.onclick = () => showToast('Go to browser Settings → Site Permissions to re-enable.', 'error');
+    } else {
+      lbl.textContent = 'Notifications off';
+      btn.textContent = '🔔 Enable Notifications';
+      btn.onclick = crmEnableNotif;
     }
   }
 
-  // Profile checklist
+  async function crmEnableNotif() {
+    const granted = await Notif.requestPermission();
+    crmRefreshNotifUI();
+    if (granted) {
+      showToast('Notifications enabled! You\'ll be alerted for every new request. ✦', 'success');
+      Notif.send('Farah Notifications Active ✦', 'You\'ll now get browser alerts for every new booking request.');
+    } else {
+      showToast('Permission denied. Enable notifications in browser settings.', 'error');
+    }
+  }
+
+  // Cross-tab listener: couple submits inquiry → vendor dashboard gets notified
+  window.addEventListener('storage', e => {
+    if (e.key !== 'farah_inquiries') return;
+    const newList = JSON.parse(e.newValue || '[]');
+    const oldList = JSON.parse(e.oldValue || '[]');
+    if (newList.length <= oldList.length) return;
+    const newest = newList[newList.length - 1];
+    const vname  = VENDORS.find(v => v.id === newest?.vendorId)?.name || 'your listing';
+    Notif.send('🔔 New Booking Request — Farah', `${newest?.userName||'Someone'} sent a request for ${vname}${newest?.date?' · '+newest.date:''}`);
+    renderRecentInquiries();
+    if (document.getElementById('panel-crm').classList.contains('active')) crmRender();
+  });
+
+  // ── Profile ──
   const profileChecks = [
     { text: 'Business name set', done: true },
     { text: 'Contact info added', done: true },
@@ -309,23 +534,22 @@
   ];
   document.getElementById('profile-checklist-items').innerHTML = profileChecks.map(c => `
     <div class="checklist-item">
-      <div class="check-box ${c.done ? 'checked' : ''}">${c.done ? '✓' : ''}</div>
-      <span class="check-text ${c.done ? 'done' : ''}">${escHtml(c.text)}</span>
+      <div class="check-box ${c.done?'checked':''}">${c.done?'✓':''}</div>
+      <span class="check-text ${c.done?'done':''}">${escHtml(c.text)}</span>
     </div>`).join('');
 
-  // Profile fields
   const vendorProfile = Storage.get(`vendor_profile_${user.id}`, {
     name: user.name, cat: '', city: '', phone: '', email: user.email, insta: '', web: '', about: ''
   });
   function loadProfileFields() {
-    document.getElementById('pf-name').value  = vendorProfile.name || '';
-    document.getElementById('pf-cat').value   = vendorProfile.cat  || '';
-    document.getElementById('pf-city').value  = vendorProfile.city || '';
-    document.getElementById('pf-phone').value = vendorProfile.phone|| '';
-    document.getElementById('pf-email').value = vendorProfile.email|| '';
-    document.getElementById('pf-insta').value = vendorProfile.insta|| '';
-    document.getElementById('pf-web').value   = vendorProfile.web  || '';
-    document.getElementById('pf-about').value = vendorProfile.about|| '';
+    document.getElementById('pf-name').value  = vendorProfile.name  || '';
+    document.getElementById('pf-cat').value   = vendorProfile.cat   || '';
+    document.getElementById('pf-city').value  = vendorProfile.city  || '';
+    document.getElementById('pf-phone').value = vendorProfile.phone || '';
+    document.getElementById('pf-email').value = vendorProfile.email || '';
+    document.getElementById('pf-insta').value = vendorProfile.insta || '';
+    document.getElementById('pf-web').value   = vendorProfile.web   || '';
+    document.getElementById('pf-about').value = vendorProfile.about || '';
   }
   function saveProfile() {
     vendorProfile.name  = document.getElementById('pf-name').value;
@@ -340,6 +564,17 @@
     showToast('Profile saved! ✦', 'success');
   }
 
+  // ── Availability ──
+  const _dashVendorId = parseInt(new URLSearchParams(window.location.search).get('vendorId')) || user.id;
+  function initDashCal() { renderDashCalendar(_dashVendorId); }
+  function clearAllAvail() {
+    if (!confirm('Clear all booked dates?')) return;
+    Availability.clear(_dashVendorId);
+    initDashCal();
+    showToast('Calendar reset — all dates now available', 'success');
+  }
+
+  // ── Init ──
   renderRecentInquiries();
 </script>
 </body>

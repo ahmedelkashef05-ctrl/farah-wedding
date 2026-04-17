@@ -90,6 +90,7 @@
       const date = document.getElementById('inq-date').value;
       if (!msg) { showToast('Please write a message.', 'error'); return; }
       Inquiries.add(vendor.id, msg, date, user.id, user.name);
+      Notif.send('New Inquiry on Farah ✦', `${user.name} sent an inquiry for ${vendor.name}${date ? ' — Wedding date: ' + date : ''}`);
       showToast('Inquiry sent! The vendor will get back to you soon. ✦', 'success');
       document.getElementById('inq-form').reset();
       document.getElementById('inq-thanks').style.display = 'block';
